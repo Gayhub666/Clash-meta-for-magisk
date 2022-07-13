@@ -24,7 +24,7 @@ proxy-providers:
 #如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
-    url: "https://suo.yt/8wKsYRy"
+    url: "有没有什么稳定点的白嫖订阅，可以塞进去"
     path: ./proxy_providers/备用yaml
     interval: 7200
     health-check:
