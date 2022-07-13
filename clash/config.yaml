@@ -1,0 +1,124 @@
+
+proxies:
+
+proxy-providers:
+  
+  可乐云:
+    type: http
+    url: "订阅链接地址"
+    path: ./proxy_providers/可乐云.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+  魔戒:
+    type: http
+    url: "订阅链接地址"
+    path: ./proxy_providers/魔戒.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+#如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
+  备用:
+    type: http
+    url: "https://suo.yt/8wKsYRy"
+    path: ./proxy_providers/备用yaml
+    interval: 7200
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
+
+      
+# 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
+proxy-groups:
+  - name: 机场
+    type: select
+    proxies:
+      - 可乐云
+      - 魔戒
+      - 美国节点
+      - 备用
+
+  - name: 可乐云
+    type: select
+    use:
+      - 可乐云
+
+  - name: 魔戒
+    type: select
+    use:
+      - 魔戒
+
+  - name: 美国节点
+    type: select
+    use:
+      - 可乐云
+      - 魔戒
+    filter: '美国|USA'
+#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割
+  - name: 备用
+    type: select
+    use:
+      - 备用
+
+  - name: 墙内网址
+    type: select
+    proxies:
+      - DIRECT
+      - 机场
+
+  - name: 其他
+    type: select
+    proxies:
+      - 机场
+      - 墙内网址
+
+rule-providers:
+  AD:
+    type: http
+    behavior: domain
+    url: https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml
+    path: ./rule_providers/Ad.yaml
+    interval: 21600
+  Google:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
+    path: ./rule_providers/Google.yaml
+    interval: 21600
+  GoogleFCM:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.yaml
+    path: ./rule_providers/Google.yaml
+    interval: 21600
+  BiliBili:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
+    path: ./rule_providers/BiliBili.yaml
+    interval: 21600
+  Local:
+    type: file
+    behavior: classical
+    path: ./rule_providers/Locale.yaml
+rules:
+  - PROCESS-NAME,clash,REJECT # 解决回环小妙招
+  - PROCESS-NAME,libsyncthingnative.so,DIRECT
+  - RULE-SET,Local,DIRECT,no-resolve
+  - RULE-SET,BiliBili,DIRECT,no-resolve
+  - RULE-SET,AD,REJECT # 去广告规则，要用，去掉最前面的井号即可
+  - DOMAIN,cdn.jsdelivr.net,DIRECT
+  - DOMAIN-SUFFIX,speedtest.net,DIRECT
+  - DOMAIN-SUFFIX,syncthing.net,DIRECT
+  - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google)),墙内网址
+  - RULE-SET,Google,机场
+  - RULE-SET,GoogleFCM,机场
+  - GEOSITE,CN,墙内网址
+  - GEOIP,CN,墙内网址
+  - MATCH,机场

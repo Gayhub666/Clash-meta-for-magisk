@@ -1,0 +1,12 @@
+payload:
+  - DOMAIN-KEYWORD,announce
+  - DOMAIN-KEYWORD,torrent
+  - DOMAIN-KEYWORD,tracker
+  - DOMAIN-SUFFIX,smtp
+  - DOMAIN-SUFFIX,local
+  - DST-PORT,22
+#  - IP-CIDR,192.168.0.0/16
+#  - IP-CIDR,10.0.0.0/8
+#  - IP-CIDR,172.16.0.0/12
+#  - IP-CIDR,127.0.0.0/8
+#  - IP-CIDR,100.64.0.0/10

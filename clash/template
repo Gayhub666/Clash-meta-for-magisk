@@ -1,0 +1,78 @@
+tproxy-port: 7893
+mixd-prot: 7890
+allow-lan: true
+geodata-mode: true
+unified-delay: false
+mode: rule
+log-level: info
+ipv6: false
+udp: true
+tcp-concurrent: false
+enable-process: true
+
+sniffer:
+  enable: false
+  sniffing:
+    - tls
+    - http
+  skip-domain:
+    - 'Mijia Cloud'
+    - 'dlg.io.mi.com'
+    - '+.apple.com'
+    - '*.baidu.com'
+  force-domain:
+    - '+'
+    - 'google.com'  
+  port-whitelist:
+    - 80
+    - 443
+    - 8000-9000
+
+
+profile:
+  store-fake-ip: true
+  store-selected: true
+external-controller: 0.0.0.0:9090
+external-ui: clash-dashboard/dist
+
+tun:
+  enable: false
+  device: Meta
+  stack: system # gvisor
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true
+# 技术原因，enable必须在tun:的下一行
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  default-nameserver:
+    - 8.8.8.8
+    - 223.5.5.5
+  enhanced-mode: redir-host # fake-ip
+  use-hosts: true 
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - localhost.ptlogin2.qq.com
+    - '*.lan'
+    - '*.linksys.com'
+    - '+.pool.ntp.org'
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  fallback:
+    - 1.1.1.1
+    - 8.8.4.4#机场
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite: ["!CN"]
+    ipcidr:
+      - 240.0.0.0/4
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
