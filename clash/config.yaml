@@ -121,6 +121,7 @@ rules:
   - RULE-SET,Tencent,DIRECT,no-resolve
   - RULE-SET,AD,REJECT # 去广告规则，要用，去掉最前面的井号即可
   - DOMAIN,cdn.jsdelivr.net,DIRECT
+  - DOMAIN,fastgit.org,DIRCET
   - DOMAIN-SUFFIX,speedtest.net,DIRECT
   - DOMAIN-SUFFIX,syncthing.net,DIRECT
   - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google)),墙内网址
