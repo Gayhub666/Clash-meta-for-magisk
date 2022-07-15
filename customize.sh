@@ -61,15 +61,6 @@ sleep 1
 
 ui_print "- 正在安装控制器"
 pm install -r -f $apkPath
- if [ $output == "Success" ]; then
-	ui_print "- 安装控制器成功"
-	else
-	ui_print "- !!!\n- !!! 安装控制器失败: [$output]\n- !!!"
-	mv -f $apkPath /sdcard
-	ui_print "已将控制器APK安装包释放到 内置存储根目录[ /sdcard ], 请手动安装\n"
- fi
-	ui_print "模块安装流程完毕"
-
 
 ui_print "- 开始设置环境权限."
 set_perm_recursive ${MODPATH} 0 0 0755 0644
