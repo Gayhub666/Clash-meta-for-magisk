@@ -1,0 +1,454 @@
+#说明：只需要在119-188行的url里面填写订阅地址，在网页仪表盘拉到最底下对应名字的组点开，update一次就可以用了。如果不能update，默认节点选择香港
+#如果你有自己的配置，也可以自己替换进去，但首先你应该清楚需要动哪里
+mixed-port: 7890
+tproxy-port: 7891
+
+tun:
+  enable: false
+  stack: system
+  dns-hijack:
+    - '0.0.0.0:53'
+  auto-route: true
+  auto-detect-interface: true
+
+unified-delay: false
+geodata-mode: true
+tcp-concurrent: false
+
+allow-lan: true
+mode: rule
+log-level: debug
+ipv6: false
+udp: true
+
+external-controller: 0.0.0.0:9090
+external-ui: ui
+secret: ""
+
+profile:
+  store-fake-ip: true
+sniffer:
+  enable: false
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  default-nameserver:
+    - 114.114.114.114
+    - 223.5.5.5
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '+.lan'
+    - '+.cn'
+    - '+.10010.com'
+    - '+.chinaunicom.com'
+    - '+.baidu.com'
+    - '*.alipay.com'
+    - '*.alipayobjects.com'
+    - '*.jijifun.com'
+    - 'connect.rom.miui.com'
+    - 'localhost.ptlogin2.qq.com'
+    - '+.msftnsci.com'
+    - '+.msftconnecttest.com'
+    - 'dl.google.com'
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  fallback:
+    - https://dns.adguard.com/dns-query#自动选择
+    - https://dns.google/dns-query#自动选择
+    - https://cloudflare-dns.com/dns-query#自动选择
+  fallback-filter:
+        geoip: true
+        geoip-code: CN
+        geosite: 
+            - GFW
+            - GREATFIRE
+
+proxies:
+#锚点
+p: &p
+  type: http
+  interval: 1800
+  health-check:
+    enable: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+
+c: &c
+  type: http
+  behavior: classical
+  interval: 86400
+
+#改下面代理提供商的名字的话，这里面的名字也需要一并修改
+u: &u
+  type: select
+  use:
+    - test
+    - test1
+    - test2
+    - test3
+    - test4
+    - test5
+    - test6
+    - test7
+    - test8
+    - test9
+    - test10
+    - test11
+    - test12
+
+pr: &pr
+  type: select
+  proxies:
+    - 默认
+    - 自动选择
+    - 中国
+    - 香港
+    - 台湾
+    - 日本
+    - 新加坡
+    - 美国
+    - 其它地区
+    - 专线
+    - 全部
+    - 直连
+    - 拦截/阻断
+    - 跳过匹配
+
+proxy-providers:
+
+  test: #这是名字，可以随便改，喜欢就行，但是需要一并改动上面的锚点里面的名字
+    <<: *p
+    url: "这里写订阅，一个机场写一个里面，下面以此类推"
+    path: ./proxy_providers/test.yaml
+    #path一般不需要改，反正又看不到
+    
+    #如果觉得不好看，也可以把下面的多余的删掉，use的锚点里面的提供商删掉就行
+
+  test1:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test1.yaml
+
+  test2:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test2.yaml
+
+  test3:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test3.yaml
+
+  test4:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test4.yaml
+
+  test5:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test5.yaml
+
+  test6:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test6.yaml
+
+  test7:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test7.yaml
+
+  test8:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test8.yaml
+
+  test9:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test9.yaml
+
+  test10:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test10.yaml
+
+  test11:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test11.yaml
+
+  test12:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/test12.yaml
+
+
+proxy-groups:
+
+  - name: 默认
+    type: select
+    proxies:
+      - DIRECT
+      - 中国
+      - 香港
+      - 台湾
+      - 日本
+      - 新加坡
+      - 美国
+      - 其它地区
+      - 专线
+      - 全部
+
+  - name: Google
+    <<: *pr
+
+  - name: Google Voice
+    <<: *pr
+
+#社交
+  - name: Telegram
+    <<: *pr
+
+  - name: Instagram
+    <<: *pr
+
+  - name: line
+    <<: *pr
+
+  - name: pixiv
+    <<: *pr
+
+  - name: ehentai
+    <<: *pr
+
+#流媒体
+
+  - name: 哔哩哔哩
+    <<: *pr
+
+  - name: 哔哩东南亚
+    <<: *pr
+
+  - name: 巴哈姆特
+    <<: *pr
+
+  - name: Niconico
+    <<: *pr
+
+  - name: YouTube
+    <<: *pr
+
+  - name: NETFLIX
+    <<: *pr
+
+  - name: Spotify
+    <<: *pr
+
+  - name: PayPal
+    <<: *pr
+
+#杂七杂八
+  - name: 游戏
+    <<: *pr
+
+  - name: 微博定位
+    <<: *pr
+
+  - name: 国内
+    type: select
+    proxies:
+      - 直连
+      - 默认
+      - 自动选择
+      - 中国
+      - 香港
+      - 台湾
+      - 日本
+      - 新加坡
+      - 美国
+      - 其它地区
+      - 专线
+      - 全部
+      - 拦截/阻断
+      - 跳过匹配
+
+  - name: 其他
+    <<: *pr
+
+#分隔，下面是地区分组
+  - name: 香港
+    filter: "港|香港|HK|HongKong"
+    <<: *u
+
+  - name: 台湾
+    filter: "台|台湾|TW|Taiwan"
+    <<: *u
+
+  - name: 日本
+    filter: "日|日本|JP|Japan"
+    <<: *u
+
+  - name: 美国
+    filter: "美|美国|US|UnitedStates"
+    <<: *u
+
+  - name: 新加坡
+    filter: "新|新加坡|SG|Singapore"
+    <<: *u
+
+  - name: 中国
+    filter: "广停|广东|杭州|腾讯云广州|阿里云北京|中国|国内|China"
+    <<: *u
+
+  - name: 专线
+    filter: "IPLC|IEPL|CN2|GAPN|CUVIP|AIA"
+    <<: *u
+
+  - name: 其它地区
+    filter: "^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|广停|广东|中国|国内|China|香港|hk|HK|hongkong|台|台湾|TW|taiwan|日本|jp|JP|新加坡|sg|美国|US)).*"
+    <<: *u
+
+  - name: 全部
+    <<: *u
+
+  - name: 自动选择
+    <<: *u
+    type: url-test
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    tolerance: 10
+
+#汉化一下)？
+
+  - name: 直连
+    type: select
+    proxies:
+      - DIRECT
+
+  - name: 拦截/阻断
+    type: select
+    proxies:
+      - REJECT
+
+  - name: 跳过匹配
+    type: select
+    proxies:
+      - PASS
+
+rule-providers:
+
+  Google:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml"
+    path: ./rule_providers/Google.yaml
+
+  YouTube:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml"
+    path: ./rule_providers/YouTube.yaml
+
+  YouTubeMusic:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTubeMusic/YouTubeMusic.yaml"
+    path: ./rule_providers/YouTubeMusic.yaml
+
+  Telegram:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"
+    path: ./rule_providers/Telegram.yaml
+
+  Netflix:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml"
+    path: ./rule_providers/Netflix.yaml
+
+  PayPal:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.yaml"
+    path: ./rule_providers/PayPal.yaml
+
+  Riot:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Riot/Riot.yaml"
+    path: ./rule_providers/Riot.yaml
+
+  bilibili:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"
+    path: ./rule_providers/BiliBili.yaml
+
+  biliintl:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBiliIntl/BiliBiliIntl.yaml"
+    path: ./rule_providers/biliintl.yaml
+
+  Bahamut:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Bahamut/Bahamut.yaml"
+    path: ./rule_providers/Bahamut.yaml
+
+  Niconico:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Niconico/Niconico.yaml"
+    path: ./rule_providers/Niconico.yaml
+
+  ins:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Instagram/Instagram.yaml"
+    path: ./rule_providers/ins.yaml
+
+  Spotify:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml"
+    path: ./rule_providers/Spotify.yaml
+
+  pixiv:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Pixiv/Pixiv.yaml"
+    path: ./rule_providers/pixiv.yaml
+
+  GV:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleVoice/GoogleVoice.yaml"
+    path: ./rule_providers/GV.yaml
+
+  ehentai:
+    <<: *c
+    url: "https://raw.githubusercontent.com/xishang0128/clash-rules/main/ehentai.yaml"
+    path: ./rule_providers/ehentai.yaml
+
+  line:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Line/Line.yaml"
+    path: ./rule_providers/line.yaml
+
+rules:
+  - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google)),DIRECT
+  - RULE-SET,GV,Google Voice
+  - RULE-SET,YouTube,YouTube
+  - RULE-SET,YouTubeMusic,YouTube
+  - RULE-SET,Google,Google
+  - RULE-SET,Telegram,Telegram
+  - RULE-SET,Netflix,NETFLIX
+  - RULE-SET,PayPal,PayPal
+  - RULE-SET,Riot,游戏
+  - RULE-SET,biliintl,哔哩东南亚
+  - RULE-SET,bilibili,哔哩哔哩
+  - RULE-SET,ins,Instagram
+  - RULE-SET,line,line
+  - RULE-SET,Niconico,Niconico
+  - RULE-SET,Bahamut,巴哈姆特
+  - RULE-SET,Spotify,Spotify
+  - RULE-SET,pixiv,pixiv
+  - RULE-SET,ehentai,ehentai
+  - DOMAIN,api.weibo.cn,微博定位
+  - GEOSITE,CN,国内
+  - GEOIP,CN,国内
+  - MATCH,其他
