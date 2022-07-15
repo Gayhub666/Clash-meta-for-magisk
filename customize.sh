@@ -10,6 +10,7 @@ ca_path="/system/etc/security/cacerts"
 CPFM_mode_dir="${modules_dir}/clash_premium"
 mod_config="${clash_data_dir}/clash.config"
 geoip_file_path="${clash_data_dir}/Country.mmdb"
+apkPath="${clash_data_dir}/dashboard.apk"
 
 if [ -d "${CPFM_mode_dir}" ] ; then
     touch ${CPFM_mode_dir}/remove && ui_print "- CPFM模块在重启后将会被删除."
@@ -57,6 +58,18 @@ if [ ! -f "${clash_data_dir}/packages.list" ] ; then
 fi
 
 sleep 1
+
+ui_print "- 正在安装控制器"
+pm install -r -f $apkPath
+ if [ $output == "Success" ]; then
+	ui_print "- 安装控制器成功"
+	else
+	ui_print "- !!!\n- !!! 安装控制器失败: [$output]\n- !!!"
+	mv -f $apkPath /sdcard
+	ui_print "已将控制器APK安装包释放到 内置存储根目录[ /sdcard ], 请手动安装\n"
+ fi
+	ui_print "模块安装流程完毕"
+
 
 ui_print "- 开始设置环境权限."
 set_perm_recursive ${MODPATH} 0 0 0755 0644

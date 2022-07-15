@@ -87,8 +87,12 @@ dns:
     - https://h.iqiq.io:777/dns-query
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
+    - https://doh.360.cn/dns-query#CN-)TCP
+    - dns.alidns.com#CN-)UDP
 #fallback:
     - https://h.iqiq.io:777/dns-query
     - https://doh.opendns.com/dns-query
     - https://dns.adguard.com/dns-query
     - https://dns.google/dns-query
+    - https://doh.opendns.com/dns-query#MATCH-)TCP
+    - dns.google#MATCH-)UDP

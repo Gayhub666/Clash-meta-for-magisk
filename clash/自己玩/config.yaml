@@ -1,0 +1,156 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: debug
+ipv6: false
+secret:
+external-controller: 127.0.0.1:9090
+external-ui: Dashboard
+secret:
+tun:
+    enable: true
+    stack: system
+    dns-hijack:
+        - any:53
+    auto-route: true
+    auto-detect-interface: true
+dns:
+    enable: true
+    ipv6: false
+    enhanced-mode: fake-ip
+    fake-ip-filter:
+        - 'connect.rom.miui.com'
+        - 'localhost.ptlogin2.qq.com'
+        - '+.msftnsci.com'
+        - '+.msftconnecttest.com'
+        - '+.gstatic.com'
+        - '+.stun.*.*'
+        - '+.stun.*.*.*'
+        - '+.stun.*.*.*.*'
+        - '+.time.*'
+        - '+.time.*.*'
+        - '+.time.*.*.*'
+        - '+.ntp.*'
+        - '+.ntp.*.*'
+        - '+.ntp.*.*.*'
+    default-nameserver:
+        - '114.114.114.114'
+        - '8.8.4.4'
+    nameserver:
+        - 'https://223.5.5.5/dns-query'
+        - 'https://doh.pub/dns-query'
+    fallback:
+        - 'tls://8.8.4.4:853'
+    fallback-filter:
+        geoip: true
+        geoip-code: CN
+
+rule-providers:
+    anti-ad:
+        behavior: "domain"
+        type: http
+        url: "https://anti-ad.net/clash.yaml"
+        interval: 3600
+        path: ./Providers/anti-ad.yaml    
+    category-ads-all:
+        behavior: "domain"
+        type: http
+        url: "https://rules.kr328.app/category-ads-all.yaml"
+        interval: 3600
+        path: ./Providers/category-ads-all.yaml
+    google@cn:
+        behavior: "domain"
+        type: http
+        url: "https://rules.kr328.app/google@cn.yaml"
+        interval: 3600
+        path: ./Providers/google@cn.yaml
+    microsoft@cn:
+        behavior: "domain"
+        type: http
+        url: "https://rules.kr328.app/microsoft@cn.yaml"
+        interval: 3600
+        path: ./Providers/microsoft@cn.yaml
+    apple@cn:
+        behavior: "domain"
+        type: http
+        url: "https://rules.kr328.app/apple@cn.yaml"
+        interval: 3600
+        path: ./Providers/apple@cn.yaml
+    geolocation-!cn:
+        behavior: "domain"
+        type: http
+        url: "https://rules.kr328.app/geolocation-%2521cn.yaml"
+        interval: 3600
+        path: ./Providers/geolocation-!cn.yaml
+    cn:
+        behavior: "domain"
+        type: http
+        url: "https://rules.kr328.app/cn.yaml"
+        interval: 3600
+        path: ./Providers/cn.yaml
+
+proxy-providers:
+    机场1:
+        type: http
+        url: "订阅链接"
+        interval: 86400
+        path: ./Providers/机场1.yaml
+        health-check:
+            enable: true
+            url: http://www.gstatic.com/generate_204
+            interval: 600
+
+    机场2:
+        type: http
+        url: "订阅链接2"
+        interval: 86400
+        path: ./Providers/机场2.yaml
+        health-check:
+            enable: true
+            url: http://www.gstatic.com/generate_204
+            interval: 600
+
+proxy-groups:
+    - name: Proxy
+      type: select
+      use:
+          - 机场1
+          - 机场2
+
+script:
+    shortcuts:
+        ntp: network == 'udp' and dst_port == 123
+        fcm: network == 'tcp' and dst_port >= 5228 and dst_port <= 5230
+  
+rules:
+    - SCRIPT,ntp,DIRECT
+    - SCRIPT,fcm,DIRECT
+    - RULE-SET,anti-ad,REJECT
+    - RULE-SET,category-ads-all,REJECT
+    - RULE-SET,google@cn,DIRECT
+    - RULE-SET,microsoft@cn,DIRECT
+    - RULE-SET,apple@cn,DIRECT
+    - RULE-SET,geolocation-!cn,Proxy
+    - RULE-SET,cn,DIRECT
+    - GEOIP,telegram,Proxy
+    - GEOIP,google,Proxy
+    - GEOIP,cn,DIRECT
+    - GEOIP,private,DIRECT,no-resolve
+    - MATCH,Proxy
+
+
+
+此版本使用 premium 内核
+需要在配置文件中写入
+tun:
+    enable: true
+    stack: system # or gvisor
+    dns-hijack:
+        - any:53
+    auto-route: true
+    auto-detect-interface: true
+不再需要配置 iptables 即可使用 tun 模式。
+支持热点和ipv6
+不支持黑白名单
+使用 Magisk Manager 实时控制开关
+Clash 配置文件夹在 /data/clash_premium/config.yam
