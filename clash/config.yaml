@@ -114,7 +114,7 @@ rule-providers:
     behavior: classical
     path: ./rule_providers/Locale.yaml
 rules:
-  - PROCESS-NAME,clash,REJECT # 解决回环小妙招
+  #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能自动更新
   - PROCESS-NAME,libsyncthingnative.so,DIRECT
   - RULE-SET,Local,DIRECT,no-resolve
   - RULE-SET,BiliBili,DIRECT,no-resolve
