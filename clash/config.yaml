@@ -24,7 +24,7 @@ proxy-providers:
 #如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
-    url: "有没有什么稳定点的白嫖订阅，可以塞进去"
+    url: "https://jetstream.site/api/v1/public/services/41618/55d7412e848eedfb93100a9c56f570f8?client=clash"
     path: ./proxy_providers/备用yaml
     interval: 7200
     health-check:
@@ -32,7 +32,7 @@ proxy-providers:
       url: http://www.gstatic.com/generate_204
       interval: 300
 
-
+#欢迎提交更多白嫖订阅！那个裤佬听说过好多次但是我也找不到
       
 # 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
 proxy-groups:
