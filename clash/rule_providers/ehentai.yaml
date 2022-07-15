@@ -1,0 +1,21 @@
+payload:
+  - DOMAIN-SUFFIX,exhentai.org
+  - DOMAIN-SUFFIX,e-hentai.org
+  - DOMAIN-SUFFIX,ehgt.org
+  - DOMAIN-SUFFIX,appcenter.ms
+  - DOMAIN-SUFFIX,ehviewer.com
+  - DOMAIN-SUFFIX,hath.network
+  - IP-CIDR,3.219.96.23/32,no-resolve
+  - IP-CIDR,37.48.89.44/32,no-resolve
+  - IP-CIDR,40.70.161.7/32,no-resolve
+  - IP-CIDR,45.14.113.124/32,no-resolve
+  - IP-CIDR,66.55.156.83/32,no-resolve
+  - IP-CIDR,81.171.10.48/32,no-resolve
+  - IP-CIDR,104.20.134.21/32,no-resolve
+  - IP-CIDR,172.67.0.127/32,no-resolve
+  - IP-CIDR,172.96.161.243/32,no-resolve
+  - IP-CIDR,178.175.128.252/32,no-resolve
+  - IP-CIDR,178.175.132.20/32,no-resolve
+  - IP-CIDR,178.162.139.24/32,no-resolve
+  - IP-CIDR,178.162.140.212/32,no-resolve
+  - IP-CIDR,209.141.62.190/32,no-resolve
