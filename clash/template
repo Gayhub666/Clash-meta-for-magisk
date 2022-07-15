@@ -76,3 +76,19 @@ dns:
       - '+.google.com'
       - '+.facebook.com'
       - '+.youtube.com'
+
+
+
+
+
+
+#其他的dns，不知道哪个更好一点
+#nameserver:
+    - https://h.iqiq.io:777/dns-query
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+#fallback:
+    - https://h.iqiq.io:777/dns-query
+    - https://doh.opendns.com/dns-query
+    - https://dns.adguard.com/dns-query
+    - https://dns.google/dns-query

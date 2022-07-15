@@ -4,7 +4,24 @@ scripts=`realpath $0`
 scripts_dir=`dirname ${scripts}`
 . /data/clash/clash.config
 
+get_uid(){
+    uid_proxy="payload:"
+    for app in $1 ; do
+        app_uid=$(dumpsys package $app | grep "userId" | tail -n -1 | cut -c 12-)
+        if [ -n "$app_uid" ] ; then
+            uid_proxy+="\n  - UID,"${app_uid}
+        fi
+    done
+    echo $uid_proxy > $2
+}
+
 start_clash() {
+    if [ -n "$app_proxy" ] ; then
+        get_uid "$app_proxy" "${Clash_data_dir}/rule_providers/${proxy_file}"
+    fi
+    if [ -n "$app_direct" ] ; then
+        get_uid "$app_direct" "${Clash_data_dir}/rule_providers/${direct_file}"
+    fi
     if [ "${ipv6}" = "false" ] ; then
         for net in /proc/sys/net/ipv6/conf/{wlan*,*data*} ; do
             echo ${net} | grep -q wlan
