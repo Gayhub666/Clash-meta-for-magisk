@@ -59,7 +59,7 @@ proxy-groups:
     use:
       - 可乐云
       - 魔戒
-    filter: '美国|USA'
+    filter: '美国|USA|美國'
 #meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割
   - name: 备用
     type: select
@@ -121,7 +121,7 @@ rules:
   - RULE-SET,Tencent,DIRECT,no-resolve
   - RULE-SET,AD,REJECT # 去广告规则，要用，去掉最前面的井号即可
   - DOMAIN,cdn.jsdelivr.net,DIRECT
-  - DOMAIN,fastgit.org,DIRCET
+  - DOMAIN,fastgit.org,DIRECT
   - DOMAIN-SUFFIX,speedtest.net,DIRECT
   - DOMAIN-SUFFIX,syncthing.net,DIRECT
   - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google)),墙内网址
