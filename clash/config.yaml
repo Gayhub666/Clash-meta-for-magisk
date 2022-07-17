@@ -24,7 +24,7 @@ proxy-providers:
 #如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
-    url: "https://jetstream.site/api/v1/public/services/41618/55d7412e848eedfb93100a9c56f570f8?client=clash"
+    url: "https://openit.daycat.space/clash"
     path: ./proxy_providers/备用.yaml
     interval: 7200
     health-check:
