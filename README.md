@@ -7,4 +7,4 @@
 <br>  https://github.com/taamarin/ClashforMagisk
 <br>  https://github.com/riffchz/ClashforMagisk
 <br>  出现了问题？ 在这里提问 https://t.me/blowH2O 虽然不一定有人解答（笑）
-<br>
+<br>  想要白嫖？ https://openit.daycat.space/ 看看这个公益网站
