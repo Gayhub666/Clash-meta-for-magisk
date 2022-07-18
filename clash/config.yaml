@@ -36,6 +36,7 @@ proxy-providers:
 #https://openit.daycat.space/clash
 #https://nullnode.top/clash
 #可以白嫖的机场 https://acec.cloud/
+#https://jetstream.site/api/v1/public/services/41618/55d7412e848eedfb93100a9c56f570f8?client=clash
 # 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
 proxy-groups:
   - name: 机场
@@ -117,6 +118,8 @@ rule-providers:
     path: ./rule_providers/Locale.yaml
 rules:
   #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能自动更新
+  - RULE-SET,AppProxy,Proxy
+  - RULE-SET,AppDirect,Domestic
   - PROCESS-NAME,libsyncthingnative.so,DIRECT
   - RULE-SET,Local,DIRECT,no-resolve
   - RULE-SET,BiliBili,DIRECT,no-resolve
