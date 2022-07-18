@@ -1,6 +1,6 @@
 id=Clash_For_Magisk
 name=Clash.Meta
-version=大王6.1版7.18魔改
+version=大王6.1版7.19魔改
 versionCode=20220423
 author=kalasutra/MC2K
 description=利用tproxy支持Clash.Meta的透明代理.

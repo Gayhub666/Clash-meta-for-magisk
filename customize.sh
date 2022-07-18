@@ -60,7 +60,7 @@ fi
 sleep 1
 
 ui_print "- 正在安装控制器"
-pm install -r -f $apkPath
+pm install -r  $apkPath
 
 ui_print "- 开始设置环境权限."
 set_perm_recursive ${MODPATH} 0 0 0755 0644
