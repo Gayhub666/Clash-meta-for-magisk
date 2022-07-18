@@ -15,6 +15,8 @@ get_uid(){
     echo $uid_proxy > $2
 }
 
+sleep 3
+
 start_clash() {
     if [ -n "$app_proxy" ] ; then
         get_uid "$app_proxy" "${Clash_data_dir}/rule_providers/${proxy_file}"
@@ -106,7 +108,6 @@ start_clash() {
             echo "*/60 * * * * ${scripts_dir}/upSub.sh -s " > ${Clash_run_path}/root \
             && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新流量信息已开启." >> ${CFM_logs_file}
             ${scripts_dir}/upSub.sh -s
-            && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 启动clash时已更新流量信息." >> ${CFM_logs_file}
         else
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 配置有误，启动失败." >> ${CFM_logs_file}
             exit 1
