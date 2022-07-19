@@ -15,7 +15,6 @@ get_uid(){
     echo $uid_proxy > $2
 }
 
-
 start_clash() {
     if [ -n "$app_proxy" ] ; then
         get_uid "$app_proxy" "${Clash_data_dir}/rule_providers/${proxy_file}"
@@ -49,7 +48,7 @@ start_clash() {
 
     if [ "${Clash_tproxy_port}" == 0 ] || [ "${Clash_tproxy_port}" == ""  ]; then
         if [ "${Clash_tun_status}" != "true" ]; then
-            echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"err: tproxy和tun只能二选一." >> ${CFM_logs_file}
+            echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"err: tproxy和tun得二选一." >> ${CFM_logs_file}
             exit 1
         fi
     fi
@@ -106,7 +105,6 @@ start_clash() {
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: clash内核已启动." >> ${CFM_logs_file}
             echo "*/60 * * * * ${scripts_dir}/upSub.sh -s " > ${Clash_run_path}/root \
             && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新流量信息已开启." >> ${CFM_logs_file}
-            ${scripts_dir}/upSub.sh -s
         else
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 配置有误，启动失败." >> ${CFM_logs_file}
             exit 1
