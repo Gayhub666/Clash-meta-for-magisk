@@ -1,4 +1,5 @@
 #!/system/bin/sh
+#cfm魔2套餐信息修复版 补上了ua
 . /data/clash/clash.config
 scripts=`realpath $0`
 scripts_dir=`dirname ${scripts}`

@@ -72,12 +72,12 @@ start_clash() {
         chmod 0600 ${Clash_run_path}/root
 
         if [ "${auto_updateGeoSite}" == "true" ]; then
-            echo "${update_geoXInterval} ${scripts_dir}/clash.tool -u" > ${Clash_run_path}/root \
+            echo "${update_geoXInterval} ${scripts_dir}/clash.tool -u" >> ${Clash_run_path}/root \
             && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新GeoX定时已开启." >> ${CFM_logs_file}
         fi
 
         if [ "${auto_updateSubcript}" == "true" ]; then
-            echo "${update_subcriptInterval} ${scripts_dir}/clash.tool -s" > ${Clash_run_path}/root \
+            echo "${update_subcriptInterval} ${scripts_dir}/clash.tool -s" >> ${Clash_run_path}/root \
             && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新订阅定时已开启." >> ${CFM_logs_file}
         fi
 
@@ -86,6 +86,8 @@ start_clash() {
             com="${scripts_dir}/clash.tool -m ; sleep 10 ;${scripts_dir}/clash.tool -m ; sleep 10; ${scripts_dir}/clash.tool -m ;sleep 10; ${scripts_dir}/clash.tool -m;sleep 10;${scripts_dir}/clash.tool -m ; sleep 10;${scripts_dir}/clash.tool -m"
             echo "*/1 * * * * ${com}" >> ${Clash_run_path}/root && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动绕过本地ip段已打开." >> ${CFM_logs_file}
         fi
+        echo "*/60 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
+        && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新流量信息已开启." >> ${CFM_logs_file}
     else
         echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"err: clash内核丢失." >> ${CFM_logs_file}
         exit 1
@@ -103,8 +105,7 @@ start_clash() {
             echo -n $! > ${Clash_pid_file}
             ${scripts_dir}/clash.tool -l
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: clash内核已启动." >> ${CFM_logs_file}
-            echo "*/60 * * * * ${scripts_dir}/upSub.sh -s " > ${Clash_run_path}/root \
-            && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新流量信息已开启." >> ${CFM_logs_file}
+            ${scripts_dir}/upSub.sh -s
         else
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 配置有误，启动失败." >> ${CFM_logs_file}
             exit 1

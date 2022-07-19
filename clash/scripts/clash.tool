@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#这份clash.tool的来源未知，不是来自自动获取uid的脚本
+#这份clash.tool的来源未知，///cfm魔2套餐信息修复版
 scripts=$(realpath $0)
 scripts_dir=$(dirname ${scripts})
 . /data/clash/clash.config
