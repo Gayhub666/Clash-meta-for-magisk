@@ -120,7 +120,6 @@ rule-providers:
     type: file
     behavior: classical
     path: ./rule_providers/AppDirect.yaml
-
   Local:
     type: file
     behavior: classical
