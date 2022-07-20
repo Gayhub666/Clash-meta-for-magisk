@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#这份clash.tool来自///cfm魔2套餐信息修复版，和原版差距很大
+
 scripts=$(realpath $0)
 scripts_dir=$(dirname ${scripts})
 . /data/clash/clash.config
@@ -11,7 +11,6 @@ monitor_local_ipv4() {
     wifistatus=$(dumpsys connectivity | grep "WIFI" | grep "state:" | awk -F ", " '{print $2}' | awk -F "=" '{print $2}' 2>&1)
 
     if [ ! -z "${wifistatus}" ]; then
-	echo "" >${Clash_run_path}/lastmobile
         if test ! "${wifistatus}" = "$(cat ${Clash_run_path}/lastwifi)"; then
             change=true
             echo "${wifistatus}" >${Clash_run_path}/lastwifi
@@ -23,34 +22,17 @@ monitor_local_ipv4() {
         echo "" >${Clash_run_path}/lastwifi
     fi
 
-    if [ "$(settings get global mobile_data 2>&1)" -eq 1 ] && [ -z "${wifistatus}" ] ; then
-		echo "" >${Clash_run_path}/lastwifi
-		card1="$(settings get global mobile_data1 2>&1)"
-		card2="$(settings get global mobile_data2 2>&1)"
-		if [ "${card1}" = 1 ] ; then
-			mobilestatus=1
-        fi
-		if [ "${card2}" = 1 ] ; then
-			mobilestatus=2
-        fi
+    if [ "$(settings get global mobile_data 2>&1)" -eq 1 ] || [ "$(settings get global mobile_data1 2>&1)" -eq 1 ]; then
         if [ ! "${mobilestatus}" = "$(cat ${Clash_run_path}/lastmobile)" ]; then
             change=true
             echo "${mobilestatus}" >${Clash_run_path}/lastmobile
         fi
-	else
-		echo "" >${Clash_run_path}/lastmobile
     fi
-    
-    testv4=$(${iptables_wait} -t mangle -nvL FILTER_LOCAL_IP | grep "ACCEPT" | awk '{print $9}' 2>&1)
-    testv6=$(${ip6tables_wait} -t mangle -nvL FILTER_LOCAL_IP | grep "ACCEPT" | awk '{print $8}' 2>&1)
-    if test -z "$testv4" || test -z "$testv6" ; then
-        change=true
-    fi
-    
-    if [ "${change}" = true ]; then
 
-        local_ipv4=$(ip a | awk '$1~/inet$/{print $2}' 2>&1)
-        local_ipv6=$(ip -6 a | awk '$1~/inet6$/{print $2}' | grep '^2' 2>&1)
+    if [ ${change} == true ]; then
+
+        local_ipv4=$(ip a | awk '$1~/inet$/{print $2}')
+        local_ipv6=$(ip -6 a | awk '$1~/inet6$/{print $2}')
         rules_ipv4=$(${iptables_wait} -t mangle -nvL FILTER_LOCAL_IP | grep "ACCEPT" | awk '{print $9}' 2>&1)
         rules_ipv6=$(${ip6tables_wait} -t mangle -nvL FILTER_LOCAL_IP | grep "ACCEPT" | awk '{print $8}' 2>&1)
 
@@ -59,7 +41,9 @@ monitor_local_ipv4() {
         done
 
         for subnet in ${local_ipv4[*]}; do
-        	${iptables_wait} -t mangle -I FILTER_LOCAL_IP -d ${subnet} -j ACCEPT
+            if ! (${iptables_wait} -t mangle -C FILTER_LOCAL_IP -d ${subnet} -j ACCEPT >/dev/null 2>&1); then
+                ${iptables_wait} -t mangle -I FILTER_LOCAL_IP -d ${subnet} -j ACCEPT
+            fi
         done
 
         for rules_subnet6 in ${rules_ipv6[*]}; do
@@ -67,9 +51,10 @@ monitor_local_ipv4() {
         done
 
         for subnet6 in ${local_ipv6[*]}; do
-        	${ip6tables_wait} -t mangle -I FILTER_LOCAL_IP -d ${subnet6} -j ACCEPT
+            if ! (${ip6tables_wait} -t mangle -C FILTER_LOCAL_IP -d ${subnet6} -j ACCEPT >/dev/null 2>&1); then
+                ${ip6tables_wait} -t mangle -I FILTER_LOCAL_IP -d ${subnet6} -j ACCEPT
+            fi
         done
-		
     fi
 
     unset local_ipv4
@@ -114,7 +99,7 @@ updateFile() {
 
     mv -f ${file} ${file_bk}
     echo "curl -L -A 'clash' ${update_url} -o ${file} "
-    /data/adb/magisk/busybox wget --no-check-certificate -U clash -O ${file} ${update_url}  2>&1 # >> /dev/null 2>&1
+    curl -L -A 'clash' ${update_url} -o ${file} 2>&1 # >> /dev/null 2>&1
 
     sleep 1
 
@@ -164,7 +149,7 @@ find_packages_uid() {
 port_detection() {
     clash_pid=$(cat ${Clash_pid_file})
     match_count=0
-	sleep 5
+
     if ! (ss -h >/dev/null 2>&1); then
         clash_port=$(netstat -anlp | grep -v p6 | grep "clash" | awk '$6~/'"${clash_pid}"*'/{print $4}' | awk -F ':' '{print $2}' | sort -u)
     else
@@ -258,7 +243,7 @@ while getopts ":kfmpusl" signal; do
         fi
         ;;
     p)
-        exit 0
+        port_detection
         ;;
     l)
         limit_clash
