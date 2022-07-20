@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#这份clash.tool的来源未知，///cfm魔2套餐信息修复版
+#这份clash.tool来自///cfm魔2套餐信息修复版，和原版差距很大
 scripts=$(realpath $0)
 scripts_dir=$(dirname ${scripts})
 . /data/clash/clash.config

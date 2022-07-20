@@ -1,0 +1,23 @@
+proxy-groups:
+  - name: 代理
+    type: select
+    proxies:
+      - 机场1
+      - 机场2
+      - 机场3
+      - 备用1
+      - 备用2
+      - 备用3
+      - 自动选择1
+      - 自动选择2
+      - 自动选择3 
+      - 负载均衡(HK)   
+  - name: 负载均衡(HK)
+    filter: "港|香港|HK|HongKong"
+    type: load-balance
+    use:
+      - 机场1
+      - 机场2
+      - 机场3
+    url: http://www.gstatic.com/generate_204
+    interval: 600

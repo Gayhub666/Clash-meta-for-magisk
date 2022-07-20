@@ -86,8 +86,6 @@ start_clash() {
             com="${scripts_dir}/clash.tool -m ; sleep 10 ;${scripts_dir}/clash.tool -m ; sleep 10; ${scripts_dir}/clash.tool -m ;sleep 10; ${scripts_dir}/clash.tool -m;sleep 10;${scripts_dir}/clash.tool -m ; sleep 10;${scripts_dir}/clash.tool -m"
             echo "*/1 * * * * ${com}" >> ${Clash_run_path}/root && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动绕过本地ip段已打开." >> ${CFM_logs_file}
         fi
-        echo "*/60 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
-        && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新流量信息已开启." >> ${CFM_logs_file}
     else
         echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"err: clash内核丢失." >> ${CFM_logs_file}
         exit 1
@@ -105,7 +103,6 @@ start_clash() {
             echo -n $! > ${Clash_pid_file}
             ${scripts_dir}/clash.tool -l
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: clash内核已启动." >> ${CFM_logs_file}
-            ${scripts_dir}/upSub.sh -s
         else
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 配置有误，启动失败." >> ${CFM_logs_file}
             exit 1
@@ -127,7 +124,13 @@ start_clash() {
         echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"err: 端口未检测到,已停止clash内核以及后续逻辑." >> ${CFM_logs_file}
         exit 1
     fi
+    sleep 2
+    echo "0 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
+    && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新流量信息已开启." >> ${CFM_logs_file}
 }
+
+sleep 1
+${scripts_dir}/upSub.sh -s
 
 stop_clash() {
     kill -15 `cat ${Clash_pid_file}`
