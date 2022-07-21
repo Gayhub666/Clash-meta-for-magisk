@@ -59,7 +59,7 @@ dns:
     - localhost.ptlogin2.qq.com
     - '*.lan'
     - '*.linksys.com'
-    - '+.pool.ntp.org'
+    - '*.ntp.*'
   nameserver:
     - 119.29.29.29
     - 223.5.5.5
