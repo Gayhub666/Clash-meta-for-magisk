@@ -20,7 +20,7 @@ proxy-providers:
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 900
+      interval: 1000
 #如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
@@ -30,7 +30,7 @@ proxy-providers:
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 900
+      interval: 1000
 
 #欢迎提交更多白嫖订阅！那个裤佬听说过好多次但是我也找不到
 #https://openit.daycat.space/clash
@@ -98,7 +98,13 @@ rule-providers:
     type: http
     behavior: classical
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.yaml
-    path: ./rule_providers/Google.yaml
+    path: ./rule_providers/GoogleFCM.yaml
+    interval: 21600
+  WeChat:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
+    path: ./rule_providers/WeChat.yaml
     interval: 21600
   BiliBili:
     type: http
@@ -120,24 +126,25 @@ rule-providers:
     type: file
     behavior: classical
     path: ./rule_providers/AppDirect.yaml
+  userDirect:
+    type: file
+    behavior: classical
+    path: ./rule_providers/userDirect.yaml
+    #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
   Local:
     type: file
     behavior: classical
     path: ./rule_providers/Locale.yaml
 rules:
-  #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能自动更新
+  #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能等待自动更新
   - RULE-SET,AppProxy,机场
   - RULE-SET,AppDirect,墙内网址
-  - PROCESS-NAME,libsyncthingnative.so,DIRECT
-  - RULE-SET,Local,DIRECT,no-resolve
-  - RULE-SET,BiliBili,DIRECT,no-resolve
-  - RULE-SET,Tencent,DIRECT,no-resolve
+  - RULE-SET,userDirect,墙内网址
   - RULE-SET,AD,REJECT # 去广告规则，要用，去掉最前面的井号即可
-  - DOMAIN,cdn.jsdelivr.net,DIRECT
-  - DOMAIN,fastgit.org,DIRECT
-  - DOMAIN-SUFFIX,speedtest.net,DIRECT
-  - DOMAIN-SUFFIX,syncthing.net,DIRECT
-  - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google)),墙内网址
+  - RULE-SET,BiliBili,墙内网址
+  - RULE-SET,Tencent,墙内网址
+  - RULE-SET,WeChat,墙内网址
+  - RULE-SET,Local,DIRECT
   - RULE-SET,Google,机场
   - GEOSITE,CN,墙内网址
   - GEOIP,CN,墙内网址
