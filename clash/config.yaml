@@ -7,30 +7,30 @@ proxy-providers:
     type: http
     url: "订阅链接地址"
     path: ./proxy_providers/可乐云.yaml
-    interval: 8000
+    interval: 21600
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 1000
+      interval: 3600
   魔戒:
     type: http
     url: "订阅链接地址"
     path: ./proxy_providers/魔戒.yaml
-    interval: 8000
+    interval: 21600
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 1000
+      interval: 3600
 #如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
     url: "在底下选一个吧，如果有好的欢迎提交"
     path: ./proxy_providers/备用.yaml
-    interval: 10000
+    interval: 21600
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 1000
+      interval: 3600
 
 #欢迎提交更多白嫖订阅！那个裤佬听说过好多次但是我也找不到
 #https://openit.daycat.space/clash
