@@ -69,7 +69,7 @@ proxy-groups:
 #测试性增加了负载均衡节点
   - name: "负载均衡"
     type: load-balance
-    proxies:
+    use:
       - 可乐云
       - 魔戒
     url: 'http://www.gstatic.com/generate_204'
