@@ -45,6 +45,7 @@ proxy-groups:
       - 可乐云
       - 魔戒
       - 美国节点
+      - 负载均衡
       - 备用
 
   - name: 可乐云
@@ -62,8 +63,21 @@ proxy-groups:
     use:
       - 可乐云
       - 魔戒
+      - 备用
     filter: '美国|USA|美國'
 #meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割
+#测试性增加了负载均衡节点
+  - name: "负载均衡"
+    type: load-balance
+    proxies:
+      - 可乐云
+      - 魔戒
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 1800
+    filter: '美国|USA|美國'
+    strategy: consistent-hashing
+
+
   - name: 备用
     type: select
     use:
@@ -141,7 +155,7 @@ rules:
   - RULE-SET,AppDirect,墙内网址
   - RULE-SET,userDirect,墙内网址
   - RULE-SET,AD,REJECT # 去广告规则，要用，去掉最前面的井号即可
-  - RULE-SET,BiliBili,墙内网址
+  - RULE-SET,BiliBili,墙内网址,no-resolve
   - RULE-SET,Tencent,墙内网址
   - RULE-SET,WeChat,墙内网址
   - RULE-SET,Local,DIRECT
