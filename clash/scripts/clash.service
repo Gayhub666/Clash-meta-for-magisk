@@ -104,7 +104,7 @@ start_clash() {
             ${scripts_dir}/clash.tool -l
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: clash内核已启动." >> ${CFM_logs_file}
             ${scripts_dir}/upSub.sh -s
-            echo "0 * * * * ${scripts_dir}/upSub.sh -s " > ${Clash_run_path}/root \
+            echo "0 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
             && echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 自动更新套餐流量已开启." >> ${CFM_logs_file}
         else
             echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 配置有误，启动失败." >> ${CFM_logs_file}
