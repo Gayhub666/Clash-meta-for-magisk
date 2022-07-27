@@ -65,3 +65,7 @@ rules:
 ^(?!.*A)             节点名不含有 A 
 ^(?!.*A).*(B)        节点名不含有 A 但含有 B
 ^(?!.*(A|B))         节点名既不含有 A 也不含有 B
+
+
+clash自动测试命令 请在终端输入后查看报错信息进行故障排除
+clash -t -f /data/clash/run/config.yaml
