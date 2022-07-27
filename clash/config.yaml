@@ -64,7 +64,7 @@ proxy-groups:
       - 魔戒
       - 备用
     filter: '美国|USA|美國'
-#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割
+#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割，支持通配符
 #测试性增加了负载均衡节点
   - name: "负载均衡"
     type: load-balance
@@ -73,7 +73,7 @@ proxy-groups:
       - 魔戒
     url: 'http://www.gstatic.com/generate_204'
     interval: 1800
-    filter: '美国|USA|美國'
+    filter: '美国|USA|美國*1.0'
     strategy: consistent-hashing
 
 
