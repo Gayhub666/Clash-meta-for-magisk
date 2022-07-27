@@ -1,6 +1,0 @@
-proxies:
-    - { name: 英国-免费, type: vmess, server: 198.98.56.61, port: '16616', uuid: 460c81ec-af71-4d6d-98e7-0d097ecfc3ae, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: / }, ws-path: / }
-    - { name: 韩国, type: vmess, server: crus9.gzfxd.xyz, port: '16616', uuid: 460c81ec-af71-4d6d-98e7-0d097ecfc3ae, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: / }, ws-path: / }
-    - { name: 日本-80端口, type: vmess, server: crus4.gzfxd.xyz, port: '80', uuid: 460c81ec-af71-4d6d-98e7-0d097ecfc3ae, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: / }, ws-path: / }
-    - { name: 新加坡80端口, type: vmess, server: crus1.gzfxd.xyz, port: '80', uuid: 460c81ec-af71-4d6d-98e7-0d097ecfc3ae, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: / }, ws-path: / }
-    - { name: 新加坡高速, type: vmess, server: crus5.gzfxd.xyz, port: '16616', uuid: 460c81ec-af71-4d6d-98e7-0d097ecfc3ae, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: / }, ws-path: / }
