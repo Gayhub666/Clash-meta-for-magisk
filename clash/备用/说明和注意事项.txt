@@ -80,3 +80,28 @@ clash -t -f /data/clash/run/config.yaml
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.yaml
     path: ./rule_providers/GoogleFCM.yaml
     interval: 21600
+
+
+
+规则可用的关键字（机翻）
+
+DOMAIN:DOMAIN,www.google.com,policy只路由www.google.com到policy.
+DOMAIN-SUFFIX:将任何以,或,DOMAIN-SUFFIX,youtube.com,policy结尾的 FQDN 路由到. 这类似于通配符。youtube.comwww.youtube.comfoo.bar.youtube.compolicy+
+DOMAIN-KEYWORD:DOMAIN-KEYWORD,google,policy将任何包含google,www.google.com或googleapis.com, 的 FQDN 路由到policy.
+GEOIP:GEOIP,CN,policy将任何到中国 IP 地址的请求路由到policy.
+IP-CIDR：IP-CIDR,127.0.0.0/8,DIRECT将任何数据包路由127.0.0.0/8到DIRECT策略。
+IP-CIDR6:IP-CIDR6,2620:0:2d0:200::7/32,policy将任何数据包路由2620:0:2d0:200::7/32到policy.
+SRC-IP-CIDR：将SRC-IP-CIDR,192.168.1.201/32,DIRECT任何数据包路由到 策略。192.168.1.201/32DIRECT
+SRC-PORT:将任何数据包从端口 80SRC-PORT,80,policy路由到.policy
+DST-PORT:将DST-PORT,80,policy任何数据包路由到端口 80 到policy.
+PROCESS-NAME:PROCESS-NAME,nc,DIRECT将进程路由nc到DIRECT. (支持macOS、Linux、FreeBSD和Windows)
+MATCH:MATCH,policy将其余数据包路由到policy. 这条规则是必需的。
+还有两个额外的特殊政策：
+
+DIRECT：直接连接到目标，不涉及任何代理
+REJECT：数据包的黑洞。Clash 不会处理此策略的任何 I/O。
+策略可以是DIRECT、REJECT、代理组或代理服务器。
+
+没有解决
+no-resolve是 、 或 规则的GEOIP附加IP-CIDR选项IP-CIDR6。附加,no-resolve到这些规则以启用。默认情况下，Clash 在遇到 IP 规则时会将域名转换为 IP 地址。当遇到具有 FQDN 目标的数据包时，Clash 会跳过启用此选项的 IP 规则。
+
