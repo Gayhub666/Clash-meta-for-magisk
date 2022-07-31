@@ -23,19 +23,19 @@ proxy-providers:
       interval: 1800
 #如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
 # 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏，一般为你的主力机场
-  备用:
+  临时:
     type: http
     url: "在底下选一个吧，如果有好的欢迎提交"
-    path: ./proxy_providers/备用.yaml
+    path: ./proxy_providers/临时.yaml
     interval: 10800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 1800
-  特殊:
+  专用:
     type: http
     url: "有些东西总是那么独特"
-    path: ./proxy_providers/特殊.yaml
+    path: ./proxy_providers/专用.yaml
     interval: 21600
     health-check:
       enable: true
@@ -54,8 +54,7 @@ proxy-groups:
     proxies:
       - 可乐云
       - 魔戒
-      - 备用
-      - 特殊
+      - 临时
       - 美国节点
       - 负载均衡
 
@@ -69,23 +68,23 @@ proxy-groups:
     use:
       - 魔戒
 
-  - name: 备用
+  - name: 临时
     type: select
     use:
-      - 备用
+      - 临时
 
-  - name: 特殊
+  - name: 专用
     type: select
     use:
-      - 特殊
+      - 专用
 
   - name: 美国节点
     type: select
     use:
       - 可乐云
       - 魔戒
-      - 备用
-      - 特殊
+      - 临时
+      - 专用
     filter: '美国|USA|美國'
 #meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割，支持通配符
 #测试性增加了负载均衡节点
@@ -100,30 +99,37 @@ proxy-groups:
     strategy: consistent-hashing
 
 
-  - name: 特殊
+  - name: 专用
     type: select
     proxies:
       - DIRECT
-      - 特殊
+      - 专用
       - 墙内网址
       - 机场
       - 负载均衡
       - 可乐云
       - 魔戒
-      - 备用     
-
-  - name: 其他
-    type: select
-    proxies:
-      - DIRECT
-      - 机场
-      - 墙内网址
+      - 临时     
 
   - name: 非墙内GeoX
     type: select
     proxies:
       - 机场
       - 墙内网址
+
+  - name: 墙内网址
+    type: select
+    proxies:
+      - DIRECT
+      - 机场
+
+  - name: 其他
+    type: select
+    proxies:
+      - 墙内网址
+      - DIRECT
+      - 机场
+
 
 rule-providers:
   AD:
@@ -168,7 +174,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./rule_providers/userDirect.yaml
-    #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
+    #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照临时里面的clash官方文档
   Local:
     type: file
     behavior: classical
@@ -177,10 +183,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./rule_providers/special.yaml
-#特殊是用户自定义的，可以走直连，代理，甚至一个单独的机场，规则写法请参考 备用文件夹内的教程
+#特殊是用户自定义的，可以走直连，代理，甚至一个单独的机场，规则写法请参考 临时文件夹内的教程
 rules:
   #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能等待自动更新，cfm现已内置完善的防回环措施，非调试不建议使用
-  - RULE-SET,special,特殊
+  - RULE-SET,special,专用
   - RULE-SET,AppProxy,机场
   - RULE-SET,AppDirect,墙内网址
   - RULE-SET,userDirect,墙内网址
