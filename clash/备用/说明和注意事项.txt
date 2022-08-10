@@ -81,6 +81,55 @@ clash -t -f /data/clash/run/config.yaml
     path: ./rule_providers/GoogleFCM.yaml
     interval: 21600
 
+  AD:
+    type: http
+    behavior: domain
+    url: https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml
+    path: ./rule_providers/Ad.yaml
+    interval: 21600
+  Google:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
+    path: ./rule_providers/Google.yaml
+    interval: 21600
+  WeChat:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
+    path: ./rule_providers/WeChat.yaml
+    interval: 21600
+  BiliBili:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
+    path: ./rule_providers/BiliBili.yaml
+    interval: 21600
+  Tencent:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Tencent/Tencent.yaml
+    path: ./rule_providers/Tencent.yaml
+    interval: 21600
+
+  Local:
+    type: file
+    behavior: classical
+    path: ./rule_providers/Locale.yaml
+
+
+
+
+
+
+
+
+
+
+ #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能等待自动更新，cfm现已内置完善的防回环措施，非调试不建议使用
+
+
+
 
 
 规则可用的关键字（机翻）

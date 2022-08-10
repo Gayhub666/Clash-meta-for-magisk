@@ -98,36 +98,6 @@ proxy-groups:
       - 墙内网址
 
 rule-providers:
-  AD:
-    type: http
-    behavior: domain
-    url: https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml
-    path: ./rule_providers/Ad.yaml
-    interval: 21600
-  Google:
-    type: http
-    behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
-    path: ./rule_providers/Google.yaml
-    interval: 21600
-  WeChat:
-    type: http
-    behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
-    path: ./rule_providers/WeChat.yaml
-    interval: 21600
-  BiliBili:
-    type: http
-    behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
-    path: ./rule_providers/BiliBili.yaml
-    interval: 21600
-  Tencent:
-    type: http
-    behavior: classical
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Tencent/Tencent.yaml
-    path: ./rule_providers/Tencent.yaml
-    interval: 21600
   AppProxy:
     type: file
     behavior: classical
@@ -141,23 +111,14 @@ rule-providers:
     behavior: classical
     path: ./rule_providers/userDirect.yaml
     #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
-  Local:
-    type: file
-    behavior: classical
-    path: ./rule_providers/Locale.yaml
 rules:
-  #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能等待自动更新，cfm现已内置完善的防回环措施，非调试不建议使用
   - RULE-SET,AppProxy,机场
   - RULE-SET,AppDirect,墙内网址
   - RULE-SET,userDirect,墙内网址
-  - RULE-SET,Local,DIRECT
-  - RULE-SET,AD,REJECT # 去广告规则，要用，去掉最前面的井号即可
-  - RULE-SET,BiliBili,墙内网址
-  - RULE-SET,Tencent,墙内网址
-  - RULE-SET,WeChat,墙内网址
-  - RULE-SET,Google,机场
+  - GEOSITE,category-ads-all,REJECT
   - GEOSITE,geolocation-cn,墙内网址
   - GEOSITE,geolocation-!cn,机场
+  - GEOIP,private,DIRECT
   - GEOIP,CN,墙内网址
   - GEOIP,!CN,机场
   - MATCH,其他

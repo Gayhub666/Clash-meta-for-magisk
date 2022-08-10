@@ -67,8 +67,6 @@ dns:
     - 1.1.1.1
     - 8.8.4.4#机场
   fallback-filter:
-    geoip: true
-    geoip-code: CN
     geosite: ["!CN"]
     ipcidr:
       - 240.0.0.0/4
