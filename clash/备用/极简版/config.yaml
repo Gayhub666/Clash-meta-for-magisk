@@ -1,0 +1,24 @@
+proxies:
+
+proxy-providers:
+      
+  机场:
+    type: http
+    url: "订阅链接地址，填写在双引号以内"
+    path: ./proxy_providers/机场.yaml
+    interval: 21600
+    
+proxy-groups:
+  - name: 节点选择
+    type: select
+    use:
+      - 机场
+    
+rule:
+  - IP-CIDR,127.0.0.1/32,REJECT,no-resolve
+  - GEOSITE,geolocation-cn,DIRECT
+  - GEOSITE,geolocation-!cn,节点选择
+  - GEOIP,CN,DIRECT
+  - GEOIP,!CN,节点选择
+  - MATCH,节点选择
+    

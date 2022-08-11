@@ -452,3 +452,344 @@ rules:
   - GEOSITE,CN,国内
   - GEOIP,CN,国内
   - MATCH,其他
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+还有一份
+proxies:
+
+p: &p
+  filter: "^((?!(官网|官址|网址|更新|刷新|购买|加群|不能用)).)*$"
+  type: http
+  interval: 1800
+  health-check:
+    enable: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+
+fb: &fb
+  type: fallback
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 10
+  use:
+    - 一元机场
+    - 倾城极速
+    - 白嫖
+
+s: &s
+  type: select
+  use:
+    - 一元机场
+    - 倾城极速
+    - 白嫖
+
+t: &t
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 10
+  use:
+    - 一元机场
+    - 倾城极速
+    - 白嫖
+
+pr: &pr
+  type: select
+  proxies:
+    - 🚀 节点选择
+    - ♻️ 自动选择
+    - 🇸🇬 新加坡节点
+    - 🇭🇰 香港节点
+    - 🇨🇳 台湾节点
+    - 🇯🇵 日本节点
+    - 🇺🇲 美国节点
+    - 🏳️‍🌈 原生/解锁
+    - 🏳️‍⚧️ 其他地区
+    - 专线
+    - 直连
+    - PASS
+
+c: &c
+  type: http
+  behavior: classical
+  interval: 86400
+
+f: &f
+  type: file
+  behavior: classical
+
+#——————————————————————————————————————————————————
+
+proxy-providers:
+
+  一元机场:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/一元机场.yaml
+
+  倾城极速:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/倾城极速.yaml
+
+  白嫖:
+    <<: *p
+    url: "https://jetstream.site/api/v1/public/services/41618/55d7412e848eedfb93100a9c56f570f8?client=clash"
+    path: ./proxy_providers/白嫖.yaml
+
+#——————————————————————————————————————————————————
+
+proxy-groups:
+
+  - name: DNS
+    type: select
+    proxies:
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🏳️‍⚧️ 其他地区
+      - 直连
+
+  - name: 🚀 节点选择
+    type: select
+    proxies:
+      - 🚧 故障转移
+      - ♻️ 自动选择
+      - 🇸🇬 新加坡节点
+      - 🇭🇰 香港节点
+      - 🇨🇳 台湾节点
+      - 🇯🇵 日本节点
+      - 🇺🇲 美国节点
+      - 🏳️‍🌈 原生/解锁
+      - 🏳️‍⚧️ 其他地区
+      - 专线
+      - 直连
+
+  - name: 专线
+    filter: "IPLC|IEPL|CN2|GAPN|CUVIP|AIA|iplc|iepl"
+    <<: *s
+
+  - name: 🚧 故障转移
+    proxies:
+        - 🛵 直连节点
+        - ♻️ 自动选择
+    <<: *fb
+
+  - name: 🛵 直连节点
+    filter: "直连|direct"
+    <<: *s
+
+  - name: 🏳️‍🌈 原生/解锁
+    filter: "原生|解锁"
+    <<: *s
+
+  - name: 🏳️‍⚧️ 其他地区
+    filter: "^((?!(🇭🇰|香港|HK|HongKong|Hong Kong|HKG|🇸🇬|新加坡|狮城|Singapore|SG|🇯🇵|日|日本|东京|Japan|JP|🇺🇲|美|美国|US|United States|UnitedStates|America|Korea|KR|🇹🇼|台|台湾|TW|Tai Wan)).)*$"
+    <<: *s
+
+  - name: 🇺🇲 美国节点
+    filter: "🇺🇲|美|美国|US|United States|UnitedStates|America"
+    <<: *fb
+
+  - name: 🇭🇰 香港节点
+    filter: "🇭🇰|香港|HK|HongKong|HKG|Hong Kong"
+    <<: *t
+
+  - name: 🇨🇳 台湾节点
+    filter: "🇹🇼|台|台湾|TW|Tai Wan"
+    <<: *t
+
+  - name: 🇸🇬 新加坡节点
+    filter: "🇸🇬|新加坡|狮城|Singapore|SG"
+    <<: *t
+
+  - name: 🇯🇵 日本节点
+    filter: "🇯🇵|日|日本|东京|Japan|JP"
+    <<: *t
+
+  - name: ♻️ 自动选择
+    <<: *t
+
+#——————————————————————————————————————————————————
+
+  - name: 📢 Google
+    <<: *pr
+
+  - name: 📲 Telegram
+    <<: *pr
+
+  - name: 📺 Netflix
+    <<: *pr
+
+  - name: 📹 YouTube
+    <<: *pr
+
+  - name: 🍋 BiliBili
+    <<: *pr
+
+  - name: 📙 Ehentai
+    <<: *pr
+
+  - name: 🎮 Games
+    <<: *pr
+
+  - name: 🪟 Microsoft
+    <<: *pr
+
+#——————————————————————————————————————————————————
+
+  - name: 🎯 全球直连
+    type: select
+    proxies:
+      - 直连
+      - 🚀 节点选择
+
+  - name: 🍃 广告过滤
+    type: select
+    proxies:
+      - 拦截
+      - PASS
+
+  - name: 直连
+    type: select
+    proxies:
+      - DIRECT
+
+  - name: 拦截
+    type: select
+    proxies:
+      - REJECT
+
+#——————————————————————————————————————————————————
+
+rule-providers:
+
+  直连rules:
+    <<: *f
+    path: ./rule_providers/自定/直连.yaml
+
+  代理rules:
+    <<: *f
+    path: ./rule_providers/自定/代理.yaml
+
+  Google:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml"
+    path: ./rule_providers/Google.yaml
+
+  GoogleFCM:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.yaml"
+    path: ./rule_providers/GoogleFCM.yaml
+
+  YouTube:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml"
+    path: ./rule_providers/YouTube.yaml
+
+  Microsoft:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml"
+    path: ./rule_providers/Microsoft.yaml
+
+  Telegram:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml"
+    path: ./rule_providers/Telegram.yaml
+
+  Netflix:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml"
+    path: ./rule_providers/Netflix.yaml
+
+  GitHub:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml"
+    path: ./rule_providers/GitHub.yaml
+
+  BiliBili:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"
+    path: ./rule_providers/BiliBili.yaml
+
+  Advertising:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml"
+    path: ./rule_providers/Advertising.yaml
+
+  Ehentai:
+    <<: *c
+    url: "https://raw.githubusercontent.com/xishang0128/clash-rules/main/ehentai.yaml"
+    path: ./rule_providers/Ehentai.yaml
+
+  WeChat:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml"
+    path: ./rule_providers/WeChat.yaml
+
+  Tencent:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Tencent/Tencent.yaml"
+    path: ./rule_providers/Tencent.yaml
+
+  Epic:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Epic/Epic.yaml"
+    path: ./rule_providers/Epic.yaml
+
+  Steam:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam.yaml"
+    path: ./rule_providers/Steam.yaml
+
+  EA:
+    <<: *c
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/EA/EA.yaml"
+    path: ./rule_providers/EA.yaml
+
+#——————————————————————————————————————————————————
+
+rules:
+
+  - IP-CIDR,127.0.0.1/32,REJECT,no-resolve
+  - PROCESS-NAME,clash,REJECT
+  - PROCESS-NAME,com.tw.fivexgames.apexlegendsmobile,🎮 Games
+  - RULE-SET,代理rules,🚀 节点选择
+  - RULE-SET,直连rules,🎯 全球直连
+  - RULE-SET,WeChat,🎯 全球直连
+  - RULE-SET,Tencent,🎯 全球直连
+  - RULE-SET,GoogleFCM,🎯 全球直连
+  - RULE-SET,Epic,🎮 Games
+  - RULE-SET,Steam,🎮 Games
+  - RULE-SET,EA,🎮 Games
+  - RULE-SET,Google,📢 Google
+  - RULE-SET,YouTube,📹 YouTube
+  - RULE-SET,Netflix,📺 Netflix
+  - RULE-SET,Microsoft,🪟 Microsoft
+  - RULE-SET,GitHub,🪟 Microsoft
+  - RULE-SET,Telegram,📲 Telegram
+  - RULE-SET,BiliBili,🍋 BiliBili
+  - RULE-SET,Ehentai,📙 Ehentai
+  - RULE-SET,Advertising,🍃 广告过滤
+  - GEOSITE,CN,🎯 全球直连
+  - GEOIP,CN,🎯 全球直连
+  - MATCH,🚀 节点选择

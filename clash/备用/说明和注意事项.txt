@@ -154,3 +154,9 @@ REJECT：数据包的黑洞。Clash 不会处理此策略的任何 I/O。
 没有解决
 no-resolve是 、 或 规则的GEOIP附加IP-CIDR选项IP-CIDR6。附加,no-resolve到这些规则以启用。默认情况下，Clash 在遇到 IP 规则时会将域名转换为 IP 地址。当遇到具有 FQDN 目标的数据包时，Clash 会跳过启用此选项的 IP 规则。
 
+
+目前已经转为使用geo规则，使用的geo文件地址如下
+https://github.com/Loyalsoldier/v2ray-rules-dat
+
+善用geo文件，所有可用的标签列表：
+https://github.com/v2fly/domain-list-community/tree/master/data

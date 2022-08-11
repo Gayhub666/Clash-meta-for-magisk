@@ -1,0 +1,22 @@
+tproxy-port: 7893
+allow-lan: true
+geodata-mode: true
+mode: rule
+log-level: silent
+ipv6: false
+
+profile:
+  store-fake-ip: true
+  store-selected: true
+external-controller: 0.0.0.0:9090
+external-ui: clash-dashboard/dist
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  enhanced-mode: redir-host
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+    - 1.1.1.1#节点选择
