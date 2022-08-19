@@ -10,25 +10,6 @@ udp: true
 tcp-concurrent: false
 enable-process: true
 
-sniffer:
-  enable: false
-  sniffing:
-    - tls
-    - http
-  skip-domain:
-    - 'Mijia Cloud'
-    - 'dlg.io.mi.com'
-    - '+.apple.com'
-    - '*.baidu.com'
-  force-domain:
-    - '+'
-    - 'google.com'  
-  port-whitelist:
-    - 80
-    - 443
-    - 8000-9000
-
-
 profile:
   store-fake-ip: true
   store-selected: true
@@ -64,7 +45,7 @@ dns:
     - 119.29.29.29
     - 223.5.5.5
   fallback:
-    - 1.1.1.1
+    - 1.1.1.1#机场
     - 8.8.4.4#机场
   fallback-filter:
     geosite: ["!CN"]

@@ -1,6 +1,14 @@
 
 proxies:
-
+  - name: "百度免流"
+    type: http
+    server: 157.0.148.53
+    port: 443
+    headers:
+      X-T5-Auth: "1962898709"
+      User-Agent:
+        "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002)
+        baiduboxapp/11.0.5.12 (Baidu; P1 11)"
 proxy-providers:
   
   可乐云:
@@ -83,12 +91,18 @@ proxy-groups:
     filter: '美国|USA|美國.*1.0'
     strategy: consistent-hashing
 
+  - name: "本地免流"
+    type: select
+    proxies:
+      - "百度免流"
+
 
   - name: 墙内网址
     type: select
     proxies:
       - DIRECT
       - 机场
+      - 本地免流
 
   - name: 其他
     type: select

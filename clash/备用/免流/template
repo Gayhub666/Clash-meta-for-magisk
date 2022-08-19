@@ -1,0 +1,283 @@
+port: 7890
+socks-port: 7891
+mixed-port: 7892
+
+# tproxy-port: 7893
+allow-lan: true
+bind-address: "*"
+geodata-mode: true
+unified-delay: true
+inbound-tfo: true
+tcp-concurrent: true
+# enable-process: true
+mode: rule
+log-level: info
+ipv6: true
+profile:
+  store-selected: true #节点状态记忆（若不同配置有同代理名称,设置值共享）
+  store-fake-ip: true
+
+external-ui: clash-dashboard/dist
+external-controller: 0.0.0.0:9090
+secret: YourPassword
+
+tun:
+  enable: true
+  device: Meta
+  stack: system
+  dns-hijack:
+    - "any:53"
+  auto-route: true
+  auto-detect-interface: true
+  # 技术原因，enable必须在tun:的下一行
+
+sniffer:
+  enable: true
+  sniffing:
+    - tls
+    - http
+  # force-domain:                  #需要强制嗅探的域名，默认只对IP嗅探
+  #   - '+'                        #去掉注释后等于全局嗅探
+  skip-domain:
+    # - '+.courier.push.apple.com'
+    - "+.apple.com"
+    - "Mijia Cloud"
+    - "+.jd.com"
+  port-whitelist:
+    - 80
+    - 8080
+    - 8880
+    - 2052
+    - 2082
+    - 2086
+    - 2095
+
+    - 443
+    - 2053
+    - 2083
+    - 2087
+    - 2096
+    - 8443
+
+    - 853
+
+    - 8000-9999
+    - 5228-5230
+
+hosts: #host，支持通配符（非通配符域名优先级高于通配符域名）
+  # '*.clash.dev': 127.0.0.1     #例如foo.example.com>*.example.com>.example.com
+  # '.dev': 127.0.0.1
+  # 'alpha.clash.dev': '::1'
+  "dns.google": 8.8.8.8
+dns:
+  enable: true
+  ipv6: true
+  listen: 0.0.0.0:1053
+  use-hosts: true
+  enhanced-mode: fake-ip
+  default-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  nameserver:
+    - "119.29.29.29#DNS-CN"
+    - "223.5.5.5#DNS-CN"
+  proxy-server-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  fallback:
+    - "1.1.1.1#DNS-GLOBAL"
+    - "8.8.8.8#DNS-GLOBAL"
+    # - https://223.5.5.5/dns-query
+    # - https://1.12.12.12/dns-query
+    # - '119.29.29.29#DNS-CN'
+    # - '223.5.5.5#DNS-CN'
+    # - https://223.5.5.5/dns-query
+    # - https://dns.alidns.com/dns-query
+    # - tls://dns.rubyfish.cn:853
+    # - https://doh.pub/dns-query
+    # - https://223.5.5.5/dns-query
+    # - https://119.29.29.29/dns-query
+    # - https://1.12.12.12/dns-query
+    # - 'quic://dns.adguard.com'
+    # - 'quic://i.passcloud.xyz:784'
+    # - tls://1.12.12.12:853
+    # - tls://8.8.4.4:853
+    # - tls://1.0.0.1:853
+    # - quic://x.passcloud.xyz:784
+    # - https://1.1.1.1/dns-query
+    # - https://dns.adguard.com/dns-query
+    # - tls://dns.google
+    # - tls://dns.rubyfish.cn:853
+    # - tls://1.0.0.1:853
+    # - tls://dns.google:853
+    # - https://dns.google/dns-query
+    # - tls://1.0.0.1/dns-query
+  # fake-ip-range: 28.0.0.0/8
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    [
+      "+.cn",
+      "+.10010.com",
+      "+.chinaunicom.com",
+      "+.baidu.com",
+      "+.alipay.com",
+      "+.alipayobjects.com",
+      "+.dl.google.com",
+      "+.jijifun.com",
+      "connect.rom.miui.com",
+      "captive.apple.com",
+      "wifi.vivo.com.cn",
+      "localhost.ptlogin2.qq.com",
+      "+.msftnsci.com",
+      "+.msftconnecttest.com",
+      "+.gstatic.com",
+      "+.stun.*.*",
+      "+.stun.*.*.*",
+      "+.stun.*.*.*.*",
+      "+.time.*",
+      "+.time.*.*",
+      "+.time.*.*.*",
+      "time1.*.com",
+      "time2.*.com",
+      "time3.*.com",
+      "time4.*.com",
+      "time5.*.com",
+      "time6.*.com",
+      "time7.*.com",
+      "ntp1.*.com",
+      "ntp2.*.com",
+      "ntp3.*.com",
+      "ntp4.*.com",
+      "ntp5.*.com",
+      "ntp6.*.com",
+      "ntp7.*.com",
+      "+.ntp.*",
+      "+.ntp.*.*",
+      "+.ntp.*.*.*",
+      "+.lan",
+      "+.localdomain",
+      "+.example",
+      "+.invalid",
+      "+.localhost",
+      "+.test",
+      "+.local",
+      "+.home.arpa",
+      "time1.cloud.tencent.com",
+      "+.music.163.com",
+      "+.126.net",
+      "musicapi.taihe.com",
+      "music.taihe.com",
+      "songsearch.kugou.com",
+      "trackercdn.kugou.com",
+      "+.kuwo.cn",
+      "api-jooxtt.sanook.com",
+      "api.joox.com",
+      "joox.com",
+      "+.y.qq.com",
+      "streamoc.music.tc.qq.com",
+      "mobileoc.music.tc.qq.com",
+      "isure.stream.qqmusic.qq.com",
+      "dl.stream.qqmusic.qq.com",
+      "aqqmusic.tc.qq.com",
+      "amobile.music.tc.qq.com",
+      "+.xiami.com",
+      "+.music.migu.cn",
+      "+.msftncsi.com",
+      "localhost.sec.qq.com",
+      "+.srv.nintendo.net",
+      "+.stun.playstation.net",
+      "xbox.*.microsoft.com",
+      "+.xboxlive.com",
+      "+.battlenet.com.cn",
+      "+.wotgame.cn",
+      "+.wggames.cn",
+      "+.wowsgame.cn",
+      "+.wargaming.net",
+      "proxy.golang.org",
+      "heartbeat.belkin.com",
+      "+.linksys.com",
+      "+.linksyssmartwifi.com",
+      "+.router.asus.com",
+      "mesu.apple.com",
+      "swscan.apple.com",
+      "swquery.apple.com",
+      "swdownload.apple.com",
+      "swcdn.apple.com",
+      "swdist.apple.com",
+      "lens.l.google.com",
+      "stun.l.google.com",
+      "+.nflxvideo.net",
+      "+.square-enix.com",
+      "+.finalfantasyxiv.com",
+      "+.ffxiv.com",
+      "+.mcdn.bilivideo.cn",
+      "WORKGROUP",
+    ]
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite:
+      # - '!CN'
+      # - geolocation-!cn
+      - gfw
+      - greatfire
+    domain:
+      - +.google.com
+      - +.facebook.com
+      - +.twitter.com
+      - +.youtube.com
+      - +.xn--ngstr-lra8j.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.googlevideo.com
+      - +.gvt1.com
+      - +.github.com
+      - +.githubusercontent.com
+    ipcidr:
+      - 0.0.0.0/8
+      - 10.0.0.0/8
+      - 100.64.0.0/10
+      - 127.0.0.0/8
+      - 169.254.0.0/16
+      - 172.16.0.0/12
+      - 192.0.0.0/24
+      - 192.0.2.0/24
+      - 192.88.99.0/24
+      - 192.168.0.0/16
+      - 198.18.0.0/15
+      - 198.51.100.0/24
+      - 203.0.113.0/24
+      - 224.0.0.0/4
+      - 240.0.0.0/4
+      - 255.255.255.255/32
+  # nameserver-policy:                #指定域名使用自定义DNS解析
+  # 'www.baidu.com': 'https://223.5.5.5/dns-query'
+  # '+.internal.crop.com': '114.114.114.114'
+  #   '*.tw': 1.1.1.1
+  #   'testflight.apple.com': 8.8.8.8
+  #   '*.tmall.com': 223.5.5.5
+  #   '*.taobao.com': 223.5.5.5
+  #   '*.alicdn.com': 223.5.5.5
+  #   '*.aliyun.com': 223.5.5.5
+  #   '*.alipay*.com': 223.5.5.5
+  #   '*.alibaba*.com': 223.5.5.5
+  #   '*.alimama*.com': 223.5.5.5
+  #   '*.qq.com': 119.29.29.29
+  #   '*.tencent.com': 119.29.29.29
+  #   '*.weixin.com': 119.29.29.29
+  #   '*.qpic.cn': 119.29.29.29
+  #   '*.jd.com': 119.29.29.29
+  #   '*.bilibili.com': 119.29.29.29
+  #   'hdslb.com': 119.29.29.29
+  #   '*.163.com': 119.29.29.29
+  #   '*.126.com': 119.29.29.29
+  #   '*.126.net': 119.29.29.29
+  #   '*.127.net': 119.29.29.29
+  #   '*.netease.com': 119.29.29.29
+  #   '*.10010.com': 119.29.29.29
+  #   '*.unicompayment.com': 119.29.29.29
+  #   '*.vercel.app': 119.29.29.29
+  #   '*.vercel.com': 119.29.29.29
+  #   '*.ximalaya.com': 119.29.29.29
+  #   '*.baidu.com': 119.29.29.29
+  #   '*.bdstatic.com': 119.29.29.29
