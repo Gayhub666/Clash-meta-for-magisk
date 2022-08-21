@@ -38,9 +38,9 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
     - localhost.ptlogin2.qq.com
-    - *.lan
-    - *.linksys.com
-    - *.ntp.*
+    - '*.lan'
+    - '*.linksys.com'
+    - '*.ntp.*'
   nameserver:
     - 119.29.29.29
     - 223.5.5.5

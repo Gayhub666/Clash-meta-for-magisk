@@ -134,18 +134,20 @@ rules:
   - RULE-SET,AppProxy,机场
   - RULE-SET,AppDirect,墙内网址
   - RULE-SET,userDirect,DIRECT
+  - GEOIP,private,DIRECT
+  - GEOSITE,category-ads-all,REJECT
 #-------免流相关规则
   #此处应有把微信qq支付宝等事逼不走免流的规则，让我看看geo教程
   - AND,((NETWORK,UDP),(DST-PORT,443/4483/9305)),REJECT #屏蔽quic
+
   - AND,((NETWORK,TCP),(GEOSITE,geolocation-cn),(DST-PORT,80/443)),墙内可免
   - AND,((NETWORK,UDP),(GEOSITE,geolocation-cn)),墙内网址
-  - AND,((NETWORK,TCP),(GEOIP,CN),(DST-PORT,80/443)),墙内可免
-  - AND,((NETWORK,UDP),(GEOIP,CN)),墙内网址
-#-----------------
-  - GEOSITE,category-ads-all,REJECT
   - GEOSITE,geolocation-cn,墙内网址
-  - GEOSITE,geolocation-!cn,机场
-  - GEOIP,private,DIRECT
+
+  - AND,((NETWORK,TCP),(GEOIP,CN,no-resolve),(DST-PORT,80/443)),墙内可免
+  - AND,((NETWORK,UDP),(GEOIP,CN,no-resolve)),墙内网址
   - GEOIP,CN,墙内网址
+#-----------------墙外流量
+  - GEOSITE,geolocation-!cn,机场
   - GEOIP,!CN,机场
   - MATCH,其他
