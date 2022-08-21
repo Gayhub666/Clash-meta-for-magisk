@@ -1,5 +1,6 @@
 
 proxies:
+#此处用来放本地免流配置，本地免流只能免80/443端口的TCP，其他连接（包括所有udp）不行
   - name: "百度免流"
     type: http
     server: 157.0.148.53
@@ -9,6 +10,7 @@ proxies:
       User-Agent:
         "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002)
         baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+
 proxy-providers:
   
   可乐云:
@@ -29,7 +31,6 @@ proxy-providers:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 1800
-#如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件，如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
     url: "在底下选一个吧，如果有好的欢迎提交"
@@ -39,7 +40,6 @@ proxy-providers:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 1800
-
 #欢迎提交更多白嫖订阅
 #https://pastebin.com/raw/GxR5pELe
 #https://openit.daycat.space/clash
@@ -79,30 +79,35 @@ proxy-groups:
       - 魔戒
       - 备用
     filter: '美国|USA|美國'
-#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他，要改全改 ，过滤器内容用 | 分割，支持通配符
-#测试性增加了负载均衡节点
+
   - name: 负载均衡
     type: load-balance
     use:
       - 可乐云
-      - 魔戒
     url: 'http://www.gstatic.com/generate_204'
     interval: 1800
     filter: '美国|USA|美國.*1.0'
     strategy: consistent-hashing
-
-  - name: "本地免流"
-    type: select
-    proxies:
-      - "百度免流"
-
-
+#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他名称
+#但是要改就得全改 ，建议使用文本编辑器的替换功能避免遗漏；过滤器内容用 | 分割，支持通配符
+#测试性增加了负载均衡节点
   - name: 墙内网址
     type: select
     proxies:
       - DIRECT
       - 机场
+
+  - name: 墙内可免
+    type: select
+    proxies:
+      - 墙内网址
       - 本地免流
+
+  - name: 本地免流
+    type: select
+    proxies:
+      - 百度免流
+
 
   - name: 其他
     type: select
@@ -128,7 +133,15 @@ rule-providers:
 rules:
   - RULE-SET,AppProxy,机场
   - RULE-SET,AppDirect,墙内网址
-  - RULE-SET,userDirect,墙内网址
+  - RULE-SET,userDirect,DIRECT
+#-------免流相关规则
+  #此处应有把微信qq支付宝等事逼不走免流的规则，让我看看geo教程
+  - AND,((NETWORK,UDP),(DST-PORT,443/4483/9305)),REJECT #屏蔽quic
+  - AND,((NETWORK,TCP),(GEOSITE,geolocation-cn),(DST-PORT,80/443)),墙内可免
+  - AND,((NETWORK,UDP),(GEOSITE,geolocation-cn)),墙内网址
+  - AND,((NETWORK,TCP),(GEOIP,CN),(DST-PORT,80/443)),墙内可免
+  - AND,((NETWORK,UDP),(GEOIP,CN)),墙内网址
+#-----------------
   - GEOSITE,category-ads-all,REJECT
   - GEOSITE,geolocation-cn,墙内网址
   - GEOSITE,geolocation-!cn,机场
