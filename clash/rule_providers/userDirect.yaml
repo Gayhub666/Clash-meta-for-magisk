@@ -3,6 +3,7 @@ payload:
  - DOMAIN,fastgit.org
 # - DOMAIN-SUFFIX,www.gstatic.com  #检测连接的地址，要是不出问题应该不需要给手动改为直连
  - DOMAIN-SUFFIX,speedtest.net
+ - DOMAIN-SUFFIX,10010.com   #联通营业厅走直连，以免免流时出现问题
  - DOMAIN-SUFFIX,syncthing.net
  - PROCESS-NAME,libsyncthingnative.so
  - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google))  #谷歌推送
