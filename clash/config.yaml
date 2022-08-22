@@ -13,10 +13,10 @@ proxies:
 
 proxy-providers:
   
-  可乐云:
+  测试:
     type: http
-    url: "订阅链接地址"
-    path: ./proxy_providers/可乐云.yaml
+    url: "https://www.naiun.co/api/v1/client/subscribe?token=bb71ad25fd1d7341560483c7b78a61a7"
+    path: ./proxy_providers/测试.yaml
     interval: 21600
     health-check:
       enable: true
@@ -45,21 +45,21 @@ proxy-providers:
 #https://openit.daycat.space/clash
 #https://nullnode.top/clash主站 下属 https://nullnode.top/clashnode
 #可以白嫖的机场 https://acec.cloud/
-# 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
+# 魔戒 测试 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
 proxy-groups:
   - name: 机场
     type: select
     proxies:
-      - 可乐云
+      - 测试
       - 魔戒
       - 备用
       - 美国节点
       - 负载均衡
 
-  - name: 可乐云
+  - name: 测试
     type: select
     use:
-      - 可乐云
+      - 测试
 
   - name: 魔戒
     type: select
@@ -75,7 +75,7 @@ proxy-groups:
   - name: 美国节点
     type: select
     use:
-      - 可乐云
+      - 测试
       - 魔戒
       - 备用
     filter: '美国|USA|美國'
@@ -83,7 +83,7 @@ proxy-groups:
   - name: 负载均衡
     type: load-balance
     use:
-      - 可乐云
+      - 测试
     url: 'http://www.gstatic.com/generate_204'
     interval: 1800
     filter: '美国|USA|美國.*1.0'
@@ -134,12 +134,10 @@ rules:
   - RULE-SET,AppProxy,机场
   - RULE-SET,AppDirect,墙内网址
   - RULE-SET,userDirect,DIRECT
-  - GEOIP,private,DIRECT
   - GEOSITE,category-ads-all,REJECT
+  - GEOIP,private,DIRECT
 #-------免流相关规则
   #此处应有把微信qq支付宝等事逼不走免流的规则，让我看看geo教程
-  - AND,((NETWORK,UDP),(DST-PORT,443/4483/9305)),REJECT #屏蔽quic
-
   - AND,((NETWORK,TCP),(GEOSITE,geolocation-cn),(DST-PORT,80/443)),墙内可免
   - AND,((NETWORK,UDP),(GEOSITE,geolocation-cn)),墙内网址
   - GEOSITE,geolocation-cn,墙内网址

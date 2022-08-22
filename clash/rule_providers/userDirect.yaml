@@ -1,6 +1,7 @@
 payload:
  - DOMAIN,cdn.jsdelivr.net
  - DOMAIN,fastgit.org
+# - DOMAIN-SUFFIX,www.gstatic.com  #检测连接的地址，要是不出问题应该不需要给手动改为直连
  - DOMAIN-SUFFIX,speedtest.net
  - DOMAIN-SUFFIX,syncthing.net
  - PROCESS-NAME,libsyncthingnative.so

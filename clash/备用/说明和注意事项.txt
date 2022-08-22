@@ -160,3 +160,7 @@ https://github.com/Loyalsoldier/v2ray-rules-dat
 
 善用geo文件，所有可用的标签列表：
 https://github.com/v2fly/domain-list-community/tree/master/data
+
+
+检测是否连接成功网址
+https://ip.skk.moe/
