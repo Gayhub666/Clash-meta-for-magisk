@@ -1,15 +1,13 @@
 port: 7890
 socks-port: 7891
 mixed-port: 7892
-
-# tproxy-port: 7893
 allow-lan: true
 bind-address: "*"
 geodata-mode: true
 unified-delay: true
 inbound-tfo: true
 tcp-concurrent: true
-# enable-process: true
+enable-process: true
 mode: rule
 log-level: info
 ipv6: true
@@ -39,7 +37,6 @@ sniffer:
   # force-domain:                  #需要强制嗅探的域名，默认只对IP嗅探
   #   - '+'                        #去掉注释后等于全局嗅探
   skip-domain:
-    # - '+.courier.push.apple.com'
     - "+.apple.com"
     - "Mijia Cloud"
     - "+.jd.com"
@@ -64,10 +61,7 @@ sniffer:
     - 8000-9999
     - 5228-5230
 
-hosts: #host，支持通配符（非通配符域名优先级高于通配符域名）
-  # '*.clash.dev': 127.0.0.1     #例如foo.example.com>*.example.com>.example.com
-  # '.dev': 127.0.0.1
-  # 'alpha.clash.dev': '::1'
+hosts:
   "dns.google": 8.8.8.8
 dns:
   enable: true
@@ -87,32 +81,6 @@ dns:
   fallback:
     - "1.1.1.1#DNS-GLOBAL"
     - "8.8.8.8#DNS-GLOBAL"
-    # - https://223.5.5.5/dns-query
-    # - https://1.12.12.12/dns-query
-    # - '119.29.29.29#DNS-CN'
-    # - '223.5.5.5#DNS-CN'
-    # - https://223.5.5.5/dns-query
-    # - https://dns.alidns.com/dns-query
-    # - tls://dns.rubyfish.cn:853
-    # - https://doh.pub/dns-query
-    # - https://223.5.5.5/dns-query
-    # - https://119.29.29.29/dns-query
-    # - https://1.12.12.12/dns-query
-    # - 'quic://dns.adguard.com'
-    # - 'quic://i.passcloud.xyz:784'
-    # - tls://1.12.12.12:853
-    # - tls://8.8.4.4:853
-    # - tls://1.0.0.1:853
-    # - quic://x.passcloud.xyz:784
-    # - https://1.1.1.1/dns-query
-    # - https://dns.adguard.com/dns-query
-    # - tls://dns.google
-    # - tls://dns.rubyfish.cn:853
-    # - tls://1.0.0.1:853
-    # - tls://dns.google:853
-    # - https://dns.google/dns-query
-    # - tls://1.0.0.1/dns-query
-  # fake-ip-range: 28.0.0.0/8
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
     [
@@ -250,34 +218,3 @@ dns:
       - 224.0.0.0/4
       - 240.0.0.0/4
       - 255.255.255.255/32
-  # nameserver-policy:                #指定域名使用自定义DNS解析
-  # 'www.baidu.com': 'https://223.5.5.5/dns-query'
-  # '+.internal.crop.com': '114.114.114.114'
-  #   '*.tw': 1.1.1.1
-  #   'testflight.apple.com': 8.8.8.8
-  #   '*.tmall.com': 223.5.5.5
-  #   '*.taobao.com': 223.5.5.5
-  #   '*.alicdn.com': 223.5.5.5
-  #   '*.aliyun.com': 223.5.5.5
-  #   '*.alipay*.com': 223.5.5.5
-  #   '*.alibaba*.com': 223.5.5.5
-  #   '*.alimama*.com': 223.5.5.5
-  #   '*.qq.com': 119.29.29.29
-  #   '*.tencent.com': 119.29.29.29
-  #   '*.weixin.com': 119.29.29.29
-  #   '*.qpic.cn': 119.29.29.29
-  #   '*.jd.com': 119.29.29.29
-  #   '*.bilibili.com': 119.29.29.29
-  #   'hdslb.com': 119.29.29.29
-  #   '*.163.com': 119.29.29.29
-  #   '*.126.com': 119.29.29.29
-  #   '*.126.net': 119.29.29.29
-  #   '*.127.net': 119.29.29.29
-  #   '*.netease.com': 119.29.29.29
-  #   '*.10010.com': 119.29.29.29
-  #   '*.unicompayment.com': 119.29.29.29
-  #   '*.vercel.app': 119.29.29.29
-  #   '*.vercel.com': 119.29.29.29
-  #   '*.ximalaya.com': 119.29.29.29
-  #   '*.baidu.com': 119.29.29.29
-  #   '*.bdstatic.com': 119.29.29.29

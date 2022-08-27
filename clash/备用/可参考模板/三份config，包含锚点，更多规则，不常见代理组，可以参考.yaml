@@ -793,3 +793,237 @@ rules:
   - GEOSITE,CN,🎯 全球直连
   - GEOIP,CN,🎯 全球直连
   - MATCH,🚀 节点选择
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  proxies:
+p: &p
+  type: http
+  interval: 3600
+  health-check:
+    enable: true
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+c: &c
+  type: http
+  behavior: classical
+  interval: 21600
+f: &f
+  type: file
+  behavior: classical
+t: &t
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 10
+  use:
+    - 机场一
+    - 机场二
+    - 机场三
+    - 机场四
+    - 机场五
+    - 机场六
+g: &g
+  type: select
+  proxies:
+    - 机场一
+    - 机场二
+    - 机场三
+    - 机场四
+    - 机场五
+    - 机场六
+    - 自动选择
+    - PASS
+    - 直连
+    - 香港
+    - 台湾
+    - 日本
+    - 新加坡
+    - 美国
+
+proxy-providers:
+  
+  机场一:
+    <<: *p
+    url: "订阅地址"
+    path: ./proxy_providers/机场1.yaml
+  机场二:
+    <<: *p
+    url: "订阅地址"
+    path: ./proxy_providers/机场2.yaml
+  机场三:
+    <<: *p
+    url: "订阅地址"
+    path: ./proxy_providers/机场3.yaml
+  机场四:
+    <<: *p
+    url: "订阅地址"
+    path: ./proxy_providers/机场4.yaml
+  机场五:
+    <<: *p
+    url: "订阅地址"
+    path: ./proxy_providers/机场5.yaml
+  机场六:
+    <<: *p
+    url: "订阅地址"
+    path: ./proxy_providers/机场6.yaml
+# 机场一,机场二为机场名，可以改名，如果要换名必须全换，否则启动失败
+
+proxy-groups:
+  - name: 机场
+    <<: *g
+  - name: 机场一
+    type: select
+    use:
+      - 机场一
+  - name: 机场二
+    type: select
+    use:
+      - 机场二
+  - name: 机场三
+    type: select
+    use:
+      - 机场三
+  - name: 机场四
+    type: select
+    use:
+      - 机场四
+  - name: 机场五
+    type: select
+    use:
+      - 机场五
+  - name: 机场六
+    type: select
+    use:
+      - 机场六
+  - name: 香港
+    filter: "港|香港|HK|HongKong"
+    <<: *t
+  - name: 台湾
+    filter: "台|台湾|TW|Taiwan"
+    <<: *t
+  - name: 日本
+    filter: "日|日本|JP|Japan"
+    <<: *t
+  - name: 美国
+    filter: "美|美国|US|UnitedStates"
+    <<: *t
+  - name: 新加坡
+    filter: "新|新加坡|SG|Singapore|狮城"
+    <<: *t  
+  - name: 自动选择
+    <<: *t
+  - name: 游戏
+    <<: *g
+  - name: 哔哩哔哩
+    <<: *g
+ 
+  - name: 广告过滤
+    type: select
+    proxies:
+      - 拦截
+      - PASS
+      
+  - name: 拦截
+    type: select
+    proxies:
+      - REJECT
+      
+  - name: 直连
+    type: select
+    proxies:
+      - DIRECT
+
+  - name: 国内
+    type: select
+    proxies:
+      - 直连
+      - 机场
+
+  - name: 其他
+    type: select
+    proxies:
+      - 机场
+      - 国内
+
+rule-providers:
+  AD:
+    type: http
+    behavior: domain
+    url: https://anti-ad.net/clash.yaml
+    path: ./rule_providers/Ad.yaml
+    interval: 21600
+  Google:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
+    path: ./rule_providers/Google.yaml  
+  GoogleFCM:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleFCM/GoogleFCM.yaml
+    path: ./rule_providers/GoogleFCM.yaml
+  YouTube:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
+    path: ./rule_providers/YouTube.yaml
+  Tencent:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Tencent/Tencent.yaml
+    path: ./rule_providers/Tencent.yaml
+  WeChat:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
+    path: ./rule_providers/WeChat.yaml
+  Game:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml
+    path: ./rule_providers/Game.yaml
+  TikTok:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml
+    path: ./rule_providers/TikTok.yaml
+  BiliBili:
+    <<: *c
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
+    path: ./rule_providers/BiliBili.yaml
+  AppProxy:
+    <<: *f
+    path: ./rule_providers/AppProxy.yaml
+  AppDirect:
+    <<: *f
+    path: ./rule_providers/AppDirect.yaml  
+  Local:
+    <<: *f
+    path: ./rule_providers/Locale.yaml 
+
+rules:
+  - IP-CIDR,127.0.0.1/32,REJECT,no-resolve
+  # 解决Clash会回环
+ # - PROCESS-NAME,clash,REJECT # 解决Clash会回环如果打开会导致无法手动更新订阅，只能自动更新
+  - RULE-SET,Local,国内,no-resolve
+  - RULE-SET,Tencent,国内,no-resolve
+  - RULE-SET,WeChat,国内,no-resolve
+  - RULE-SET,AD,广告过滤 # 去广告规则，不想用，最前面的加上#号即可
+  - RULE-SET,GoogleFCM,机场
+  - RULE-SET,YouTube,机场
+  - RULE-SET,Game,游戏
+  - RULE-SET,Google,机场  
+  - RULE-SET,TikTok,机场  
+  - RULE-SET,AppProxy,机场
+  - RULE-SET,AppDirect,国内
+  - RULE-SET,BiliBili,哔哩哔哩
+  - GEOSITE,CN,国内,no-resolve
+  - GEOIP,CN,国内,no-resolve
+  - MATCH,机场

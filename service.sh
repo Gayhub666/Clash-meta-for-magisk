@@ -14,10 +14,7 @@ busybox_path="/data/adb/magisk/busybox"
 if [ -f ${Clash_pid_file} ] ; then
     rm -rf ${Clash_pid_file}
 fi
-until [ $(getprop init.svc.bootanim) = "stopped" ]
-do
-sleep 3
-done
+
 rm -rf ${Clash_run_path}/run.logs
 nohup ${busybox_path} crond -c ${Clash_run_path} > /dev/null 2>&1 &
 

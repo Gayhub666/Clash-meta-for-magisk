@@ -49,9 +49,6 @@ dns:
   enable: true
   listen: 0.0.0.0:1053
   ipv6: false
-  default-nameserver:
-    - 8.8.8.8
-    - 223.5.5.5
   enhanced-mode: redir-host # fake-ip
   use-hosts: true 
   fake-ip-range: 198.18.0.1/16
@@ -60,17 +57,36 @@ dns:
     - '*.lan'
     - '*.linksys.com'
     - '*.ntp.*'
-  nameserver:
+  default-nameserver:
     - 119.29.29.29
     - 223.5.5.5
+  proxy-server-namesever:
+    - https://120.53.53.53/dns-query
+    - https://223.5.5.5/dns-query
+  nameserver:
+    #- 119.29.29.29
+    #- 223.5.5.5
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+    #大部分机场的默认dns，仅供参考
   fallback:
-    - 1.1.1.1
-    - 8.8.4.4#机场
+    #- 1.1.1.1#机场
+    #- 8.8.4.4#机场
+    - https://doh.dns.sb/dns-query
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.twnic.tw/dns-query
   fallback-filter:
     geosite: ["!CN"]
     ipcidr:
       - 240.0.0.0/4
+      - 0.0.0.0/32
     domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
+      - +.google.com
+      - +.facebook.com
+      - +.twitter.com
+      - +.youtube.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.googlevideo.com
+      - +.github.com
+      - +.githubusercontent.com

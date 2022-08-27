@@ -1,7 +1,6 @@
 proxies:
-
 proxy-providers:
-      
+ 
   机场:
     type: http
     url: "订阅链接地址，填写在双引号以内"

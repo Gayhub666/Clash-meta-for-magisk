@@ -6,5 +6,7 @@
 <br>  其他玩这个的人如下，建议多试试
 <br>  https://github.com/taamarin/ClashforMagisk
 <br>  https://github.com/riffchz/ClashforMagisk
+<br>  https://github.com/Kry9toN/Clash4Magisk
+<br>  https://t.me/wtdnwbzda
 <br>  出现了问题？ 在这里提问 https://t.me/blowH2O 虽然不一定有人解答（笑）
 <br>  想要白嫖？ https://openit.daycat.space/ 看看这个公益网站
