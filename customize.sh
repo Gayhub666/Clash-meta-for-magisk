@@ -72,3 +72,16 @@ set_perm_recursive ${clash_data_dir}/scripts ${system_uid} ${system_gid} 0755 07
 set_perm  ${MODPATH}/system/bin/clash  ${system_uid}  ${system_gid}  6755
 set_perm  ${clash_data_dir}/clash.config ${system_uid} ${system_gid} 0755
 set_perm  ${clash_data_dir}/packages.list ${system_uid} ${system_gid} 0644
+#安装控制器
+if [ "$(pm list packages | grep com.dashboard.kotlin)" ] || [ "$(pm list packages | grep -s com.dashboard.kotlin)" ];then
+ui_print "- 无需安装DashBoard."
+else
+ui_print "- 开始安装DashBoard."
+pm install -r --user 0 data/clash/备用/控制器.apk
+ui_print "- ↑显示Success即为安装完成."
+ui_print "- 如果失败请手动安装 安装包文件在:/data/clash/备用/控制器.apk"
+fi
+ui_print "- 模块安装已完成"
+ui_print "- 请进入data/clash/config.yaml 指定位置填写订阅链接"
+ui_print "- 建议打开 备用 文件夹仔细查看详细说明和配置模板"
+ui_print "- 多看看教程，免得出问题一脸懵逼到处问"

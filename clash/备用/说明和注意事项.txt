@@ -2,6 +2,34 @@
 打开data/clash/clash.confug
 就可以看到可以添加包名的地方，记得用一个一行写在双引号里面
 scripts文件夹下打开终端输入 ./upSub.sh -s  即可手动更新套餐信息，默认为1小时自动更新一次
+
+通配符说明 适用于过滤器
+[转发自频道 Kattesnive (kattesnive)]
+(A).*(B)             节点名既有 A 也有 B 
+(A)|(B)              节点名有 A 或者 B   
+^(?!.*A)             节点名不含有 A 
+^(?!.*A).*(B)        节点名不含有 A 但含有 B
+^(?!.*(A|B))         节点名既不含有 A 也不含有 B
+
+clash自动测试命令 请在终端输入后查看报错信息进行故障排除
+clash -t -f /data/clash/run/config.yaml
+
+由于rule-provider效率较低，目前已经转为使用geo规则，使用的geo文件地址如下
+https://github.com/Loyalsoldier/v2ray-rules-dat
+
+善用geo文件，所有可用的标签列表：
+https://github.com/v2fly/domain-list-community/tree/master/data
+
+检测是否连接成功网址
+https://ip.skk.moe/
+
+防止回环的另外一种办法
+rules:
+  - IP-CIDR,127.0.0.1/32,REJECT,no-resolve
+  - PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能等待自动更新，cfm现已内置完善的防回环措施，非调试不建议使用
+
+
+------------------------------------------以下为部分可自行替换配置，更多配置请看 可参考模板 文件夹内配置-----------------------------------------------
 负载均衡实列
 proxy-groups:
   - name: 代理
@@ -29,48 +57,26 @@ proxy-groups:
 
 
 #其他的dns，不知道哪个更好一点
-#nameserver:
+nameserver:
     - https://h.iqiq.io:777/dns-query
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
+
     - https://doh.360.cn/dns-query#CN-)TCP
     - dns.alidns.com#CN-)UDP
-#fallback:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+fallback:
     - https://h.iqiq.io:777/dns-query
     - https://doh.opendns.com/dns-query
     - https://dns.adguard.com/dns-query
     - https://dns.google/dns-query
+
     - https://doh.opendns.com/dns-query#MATCH-)TCP
     - dns.google#MATCH-)UDP
-  nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
-
-  fallback:
     - https://dns.adguard.com/dns-query
     - https://dns.google/dns-query#DNS
     - https://cloudflare-dns.com/dns-query#DNS
-
-
-防止回环的另外一种办法
-rules:
-  - IP-CIDR,127.0.0.1/32,REJECT,no-resolve
-
-
-
-通配符说明 适用于过滤器
-[转发自频道 Kattesnive (kattesnive)]
-(A).*(B)             节点名既有 A 也有 B 
-(A)|(B)              节点名有 A 或者 B   
-^(?!.*A)             节点名不含有 A 
-^(?!.*A).*(B)        节点名不含有 A 但含有 B
-^(?!.*(A|B))         节点名既不含有 A 也不含有 B
-
-
-clash自动测试命令 请在终端输入后查看报错信息进行故障排除
-clash -t -f /data/clash/run/config.yaml
-
-
 
 
 可选规则 
@@ -120,18 +126,6 @@ clash -t -f /data/clash/run/config.yaml
 
 
 
-
-
-
-
-
-
- #- PROCESS-NAME,clash,REJECT # 解决回环小妙招 打开会导致无法手动更新订阅，只能等待自动更新，cfm现已内置完善的防回环措施，非调试不建议使用
-
-
-
-
-
 规则可用的关键字（机翻）
 
 DOMAIN:DOMAIN,www.google.com,policy只路由www.google.com到policy.
@@ -153,10 +147,3 @@ REJECT：数据包的黑洞。Clash 不会处理此策略的任何 I/O。
 
 没有解决
 no-resolve是 、 或 规则的GEOIP附加IP-CIDR选项IP-CIDR6。附加,no-resolve到这些规则以启用。默认情况下，Clash 在遇到 IP 规则时会将域名转换为 IP 地址。当遇到具有 FQDN 目标的数据包时，Clash 会跳过启用此选项的 IP 规则。
-
-
-目前已经转为使用geo规则，使用的geo文件地址如下
-https://github.com/Loyalsoldier/v2ray-rules-dat
-
-善用geo文件，所有可用的标签列表：
-https://github.com/v2fly/domain-list-community/tree/master/data
