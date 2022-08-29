@@ -12,3 +12,4 @@ mv /data/adb/modules/Clash_For_Magisk/system/bin/clash /data/adb/modules/Clash_F
 mv clash /data/adb/modules/Clash_For_Magisk/system/bin/clash
 
 chmod 777 /data/adb/modules/Clash_For_Magisk/system/bin/clash
+echo 已安装最新版 meta alpha内核
